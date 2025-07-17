@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Çoktan Seçmeli Quiz</title>
+    <link rel="stylesheet" href="styles/main.css">
+</head>
+<body>
+    <div class="quiz-container">
+        <h1>Çoktan Seçmeli Quiz</h1>
+        <div id="quiz-content">
+            <div id="start-screen" class="screen">
+                <h2>Quiz'e Hoş Geldiniz</h2>
+                <button id="start-btn" class="btn">Başla</button>
+            </div>
+            
+            <div id="question-screen" class="screen hidden">
+                <div id="progress-bar">
+                    <div id="progress-fill"></div>
+                </div>
+                <div id="question-number"></div>
+                <h2 id="question-text"></h2>
+                <div id="options-container">
+                    <!-- Seçenekler JavaScript ile eklenecek -->
+                </div>
+                <div id="feedback-container" class="hidden">
+                    <div id="feedback-text"></div>
+                </div>
+                <div id="navigation">
+                    <button id="prev-btn" class="btn nav-btn">Önceki</button>
+                    <button id="next-btn" class="btn nav-btn">Sonraki</button>
+                </div>
+            </div>
+            
+            <div id="results-screen" class="screen hidden">
+                <h2>Quiz Tamamlandı!</h2>
+                <div id="results-summary"></div>
+                <div id="detailed-results"></div>
+                <button id="restart-btn" class="btn">Yeniden Başla</button>
+            </div>
+        </div>
+    </div>
+    
+    <script src="assets/questions.json" type="application/json" id="questions-data"></script>
+    <script src="scripts/main.js"></script>
+</body>
+</html>

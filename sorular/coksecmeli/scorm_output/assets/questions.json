@@ -1,0 +1,112 @@
+[
+  {
+    "id": "acf9c6e9-297b-4d83-bd80-a39013ac850d",
+    "question": "48 sayısı en yakın onluğa yuvarlandığında kaç olur?",
+    "correct_answer": "50",
+    "options": [
+      "60",
+      "45",
+      "40",
+      "50"
+    ]
+  },
+  {
+    "id": "a04d2bc2-7299-4304-8574-d744d8df62aa",
+    "question": "32 sayısı en yakın onluğa yuvarlandığında kaç olur?",
+    "correct_answer": "30",
+    "options": [
+      "30",
+      "40",
+      "20",
+      "35"
+    ]
+  },
+  {
+    "id": "5f29f0d2-8c62-45b0-afe4-c15c821d5a2a",
+    "question": "Birler basamağı 5 veya daha büyük olan sayılar hangi onluğa yuvarlanır?",
+    "correct_answer": "Sonraki onluğa",
+    "options": [
+      "En küçük onluğa",
+      "En yakın beşliye",
+      "Sonraki onluğa",
+      "Önceki onluğa"
+    ]
+  },
+  {
+    "id": "afc2cb76-8dee-4ddb-9d7e-b89e2ae45376",
+    "question": "Yuvarlama yaparken sayı 4 ile biterse hangi onluğa yuvarlanır?",
+    "correct_answer": "Önceki onluğa",
+    "options": [
+      "10’a",
+      "50’ye",
+      "Önceki onluğa",
+      "Sonraki onluğa"
+    ]
+  },
+  {
+    "id": "6ba9d599-f9fe-4d19-be13-230dc145f169",
+    "question": "Yuvarlama makinesinde 8 yazan deliğe atılan sayı hangisinin birler basamağıdır?",
+    "correct_answer": "8",
+    "options": [
+      "18",
+      "88",
+      "8",
+      "2"
+    ]
+  },
+  {
+    "id": "9b5f98c9-d3e7-40a6-8f79-2c4a3c59eecc",
+    "question": "Yuvarlama makinesinde pinpon topları neyi temsil ediyor?",
+    "correct_answer": "Sayıları",
+    "options": [
+      "Öğretmenleri",
+      "Sayıları",
+      "Soruları",
+      "Oyunları"
+    ]
+  },
+  {
+    "id": "f600aa12-23f2-4e92-a174-0e8c8675d902",
+    "question": "Yuvarlama makinesinde sayı 48 için doğru hedef nedir?",
+    "correct_answer": "50",
+    "options": [
+      "48",
+      "40",
+      "50",
+      "45"
+    ]
+  },
+  {
+    "id": "a87d9efc-4791-4c9c-b77c-b13a43646ec1",
+    "question": "Yuvarlama ne işe yarar?",
+    "correct_answer": "Sayıları kolaylaştırır",
+    "options": [
+      "Zihinden çıkarma yapar",
+      "Sayıları kolaylaştırır",
+      "Toplama yapar",
+      "Bölme yapar"
+    ]
+  },
+  {
+    "id": "fa9380c0-78dc-49ea-9949-e29970a0225f",
+    "question": "En yakın onluğa yuvarlama yapılırken hangi basamağa bakılır?",
+    "correct_answer": "Birler basamağı",
+    "options": [
+      "Onlar basamağı",
+      "Sıfırlar",
+      "Birler basamağı",
+      "Yüzler basamağı"
+    ]
+  },
+  {
+    "id": "e7e13087-3c79-4712-b155-93e7481b62a7",
+    "question": "Öğretmenin gösterdiği yuvarlama planında ne vardı?",
+    "correct_answer": "Makine ve delikler",
+    "options": [
+      "Oyuncaklar",
+      "Sadece pinpon topu",
+      "Makine ve delikler",
+      "Sayı kartları"
+    ]
+  }
+]
