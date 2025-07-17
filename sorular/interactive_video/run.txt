@@ -1,0 +1,1 @@
+python scorm_creator.py --url "https://www.youtube.com/watch?v=LRrVe9yYt4I" --title "TBMM Çocuk - Ali ve Ayşe Çanakkale Gezisinde"  --duration 440  --csv sorular.csv
