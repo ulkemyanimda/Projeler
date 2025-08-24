@@ -1,0 +1,1037 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Akıllı Ses Asistanı</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+            color: #333;
+        }
+        h1 {
+            color: #2c3e50;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .photo-container {
+            margin-bottom: 25px;
+            text-align: center;
+        }
+        .photo-container img {
+            max-width: 100%;
+            height: auto;
+        }
+        .container {
+            background-color: white;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+        .section {
+            margin-bottom: 30px;
+        }
+        .section-title {
+            font-size: 1.5em;
+            color: #3498db;
+            margin-bottom: 15px;
+            border-bottom: 2px solid #3498db;
+            padding-bottom: 5px;
+        }
+        textarea {
+            width: 100%;
+            height: 200px;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            resize: vertical;
+            font-size: 16px;
+            margin-bottom: 10px;
+        }
+        button {
+            background-color: #3498db;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            margin-right: 10px;
+            transition: background-color 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        button:hover {
+            background-color: #2980b9;
+        }
+        button:disabled {
+            background-color: #95a5a6;
+            cursor: not-allowed;
+        }
+        .status {
+            margin-top: 10px;
+            font-style: italic;
+            color: #7f8c8d;
+        }
+        .button-group {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+        .error {
+            color: #e74c3c;
+            font-weight: bold;
+        }
+        .mic-button {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background-color: #e74c3c;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px auto;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .mic-button:hover {
+            background-color: #c0392b;
+            transform: scale(1.05);
+        }
+        .mic-button.recording {
+            animation: pulse 1.5s infinite;
+            background-color: #27ae60;
+        }
+        .mic-button i {
+            font-size: 24px;
+            color: white;
+        }
+        .controls {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 15px;
+        }
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.1);
+            }
+            100% {
+                transform: scale(1);
+            }
+        }
+        .live-text {
+            padding: 10px;
+            border-radius: 5px;
+            background-color: #f8f9fa;
+            border: 1px dashed #ddd;
+            margin-bottom: 15px;
+            min-height: 50px;
+            font-size: 16px;
+            color: #333;
+            display: none;
+        }
+        .live-text.active {
+            display: block;
+            animation: fadeIn 0.5s;
+        }
+        .recording-indicator {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+            font-weight: bold;
+            color: #27ae60;
+            display: none;
+        }
+        .recording-indicator.active {
+            display: flex;
+        }
+        .recording-dot {
+            width: 12px;
+            height: 12px;
+            background-color: #27ae60;
+            border-radius: 50%;
+            margin-right: 8px;
+            animation: blink 1s infinite;
+        }
+        @keyframes blink {
+            0% { opacity: 0; }
+            50% { opacity: 1; }
+            100% { opacity: 0; }
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <div class="photo-container">
+        <img src="./img/d1.svg" alt="robot"  width="200" height="200">
+        <div class="photo-caption" contenteditable="false">
+
+    <div class="container">
+        <div class="section">
+            <div class="section-title">Yapay Zekâ Destekli Türkçe Konuşma Arkadaşı</div>
+            
+            <div class="mic-button" id="micButton">
+                <i class="fas fa-microphone"></i>
+            </div>
+            
+            <div class="status" id="status">Hazır. Mikrofon butonuna tıklayarak konuşmaya başlayabilirsiniz.</div>
+            
+            <div class="recording-indicator" id="recordingIndicator">
+                <div class="recording-dot"></div>
+                <span>Dinleniyor...</span>
+            </div>
+            
+            <div class="live-text" id="liveText">
+                Konuşmanız burada gerçek zamanlı olarak görünecek...
+            </div>
+            
+            <textarea id="textArea" placeholder="Konuşmanız burada görünecek veya metninizi buraya yazabilirsiniz..."></textarea>
+            
+            <div class="controls">
+                <button id="sendButton"><i class="fas fa-paper-plane"></i>  Gönder</button>
+                <button id="speakButton"><i class="fas fa-volume-up"></i>  Seslendir</button>
+                <button id="stopButton"><i class="fas fa-stop"></i>  Durdur</button>
+                <button id="clearButton"><i class="fas fa-trash"></i>  Temizle</button>
+                <button id="resetButton"><i class="fas fa-redo"></i>  Konuşmayı Sıfırla</button>
+            </div>
+            
+            <!-- Konuşma hızı kontrolü -->
+            <div class="speed-control" style="margin-top: 15px; text-align: center;">
+                <label for="speechRate">Konuşma Hızı: <span id="rateValue">1.0</span>x</label>
+                <input type="range" id="speechRate" min="0.5" max="2" step="0.1" value="1.0" style="width: 80%; margin: 10px auto; display: block;">
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // DOM Elementleri
+        const micButton = document.getElementById('micButton');
+        const textArea = document.getElementById('textArea');
+        const clearButton = document.getElementById('clearButton');
+        const sendButton = document.getElementById('sendButton');
+        const speakButton = document.getElementById('speakButton');
+        const stopButton = document.getElementById('stopButton');
+        const statusElement = document.getElementById('status');
+        const liveText = document.getElementById('liveText');
+        const recordingIndicator = document.getElementById('recordingIndicator');
+        const resetButton = document.getElementById('resetButton');
+        const testButton = document.getElementById('testButton');
+        
+        // Değişkenler
+        let recognition = null;
+        let isRecording = false;
+        let speechUtterance = null;
+        let conversationId = null; // Konuşma ID'sini saklamak için
+        let finalSpeechResult = ''; // Konuşma sonucunu saklamak için
+        let speechRate = 1.0; // Konuşma hızı değişkeni
+        let conversationHistory = []; // Konuşma geçmişini saklamak için
+        
+        // API URL'leri<button id="sendButton"><i class="fas fa-paper-plane"></i> Gönder</button>
+        const GEMMA_API_URL = 'http://127.0.0.1:1234/v1/chat/completions';
+        const LOCAL_API_URL = 'http://127.0.0.1:5000/api/chat';
+        
+        // Aktif API URL'si (varsayılan olarak yerel sunucu)
+        const ACTIVE_API_URL = LOCAL_API_URL;
+        
+        // Tarayıcı desteğini kontrol et
+        function checkBrowserSupport() {
+            // Konuşma tanıma desteği kontrolü
+            if (!('webkitSpeechRecognition' in window) && !('SpeechRecognition' in window)) {
+                statusElement.textContent = 'Hata: Tarayıcınız konuşma tanımayı desteklemiyor.';
+                statusElement.classList.add('error');
+                micButton.style.backgroundColor = '#95a5a6';
+                micButton.style.cursor = 'not-allowed';
+                return false;
+            }
+            
+            // Metin okuma desteği kontrolü
+            if (!('speechSynthesis' in window)) {
+                statusElement.textContent = 'Hata: Tarayıcınız metin okumayı desteklemiyor.';
+                statusElement.classList.add('error');
+                speakButton.disabled = true;
+                stopButton.disabled = true;
+            }
+            
+            return true;
+        }
+        
+        // Konuşma tanıma işlevini başlat
+        function setupSpeechRecognition() {
+            try {
+                // SpeechRecognition API'sini başlat
+                window.SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+                
+                if (window.SpeechRecognition) {
+                    recognition = new window.SpeechRecognition();
+                    
+                    // Türkçe dil desteği
+                    recognition.lang = 'tr-TR';
+                    
+                    // Sürekli dinleme modunu etkinleştir
+                    recognition.continuous = true;
+                    
+                    // Ara sonuçları göster
+                    recognition.interimResults = true;
+                    
+                    // Sonuç olayı
+                    recognition.onresult = function(event) {
+                        let interimTranscript = '';
+                        let currentFinalTranscript = '';
+                        
+                        // Sonuçları işle
+                        for (let i = event.resultIndex; i < event.results.length; i++) {
+                            const transcript = event.results[i][0].transcript;
+                            
+                            if (event.results[i].isFinal) {
+                                currentFinalTranscript += transcript + ' ';
+                            } else {
+                                interimTranscript += transcript;
+                            }
+                        }
+                        
+                        // Final metni güncelle
+                        if (currentFinalTranscript) {
+                            finalSpeechResult += currentFinalTranscript;
+                        }
+                        
+                        // Geçici metni sadece canlı metin alanında göster
+                        if (interimTranscript !== '') {
+                            liveText.textContent = interimTranscript;
+                        } else {
+                            liveText.textContent = "Konuşmanız algılanıyor...";
+                        }
+                        
+                        // Metin kutusunu güncelle - sadece final metni göster
+                        if (finalSpeechResult) {
+                            // Eğer metin alanında zaten metin varsa ve yeni metin ekliyorsak
+                            if (textArea.value && !textArea.value.endsWith(finalSpeechResult)) {
+                                // Mevcut metni koru, yeni metni ekle
+                                if (!textArea.value.includes(finalSpeechResult)) {
+                                    textArea.value = textArea.value + "\n" + finalSpeechResult;
+                                } else {
+                                    // Eğer yeni metin zaten varsa, sadece son kısmını güncelle
+                                    textArea.value = textArea.value;
+                                }
+                            } else {
+                                textArea.value = finalSpeechResult;
+                            }
+                        }
+                        
+                        // Otomatik kaydırma
+                        textArea.scrollTop = textArea.scrollHeight;
+                    };
+                    
+                    // Hata olayı
+                    recognition.onerror = function(event) {
+                        statusElement.textContent = 'Hata: ' + event.error;
+                        statusElement.classList.add('error');
+                        stopRecording();
+                    };
+                    
+                    // Kayıt bittiğinde
+                    recognition.onend = function() {
+                        if (isRecording) {
+                            // Eğer hala kayıt modundaysak, tekrar başlat
+                            recognition.start();
+                        } else {
+                            // Kayıt modundan çıkıldıysa, UI'ı güncelle
+                            micButton.classList.remove('recording');
+                            micButton.querySelector('i').className = 'fas fa-microphone';
+                            statusElement.textContent = 'Kayıt durduruldu.';
+                            
+                            // Canlı metin göstergesini gizle
+                            liveText.classList.remove('active');
+                            recordingIndicator.classList.remove('active');
+                            
+                            // Eğer metin varsa, otomatik olarak LLM'e gönder
+                            if (textArea.value.trim()) {
+                                statusElement.textContent = 'Metin API\'ye gönderiliyor...';
+                                // Metni API'ye gönder - tüm metni gönder, sadece son eklenen kısmı değil
+                                sendToLlamaAPI(textArea.value.trim());
+                            }
+                            
+                            // Reset finalSpeechResult for next recording
+                            finalSpeechResult = '';
+                        }
+                    };
+                }
+            } catch (error) {
+                console.error('Konuşma tanıma API\'si başlatma hatası:', error);
+                statusElement.textContent = 'Hata: Konuşma tanıma API\'si başlatılamadı.';
+                statusElement.classList.add('error');
+            }
+        }
+        
+        // Kayda başla
+        function startRecording() {
+            if (!isRecording) {
+                isRecording = true;
+                
+                try {
+                    // SpeechRecognition API'sini kontrol et
+                    if (!recognition) {
+                        console.log("Recognition değişkeni tanımlı değil, yeniden tanımlanıyor...");
+                        setupSpeechRecognition();
+                        
+                        // Hala tanımlı değilse hata ver
+                        if (!recognition) {
+                            throw new Error("Konuşma tanıma API'si başlatılamadı");
+                        }
+                    }
+                    
+                    // Yeni kayıt başlatıldığında sadece geçici metni temizle
+                    // finalSpeechResult'ı temizleme - önceki konuşmayı korumak için
+                    
+                    // Metin kutusunu temizleme - önceki konuşmayı korumak için
+                    // textArea.value = '';
+                    
+                    recognition.start();
+                    micButton.classList.add('recording');
+                    micButton.querySelector('i').className = 'fas fa-stop';
+                    statusElement.textContent = 'Dinleniyor... Konuşun ve bitirmek için tekrar mikrofon butonuna tıklayın.';
+                    
+                    // Canlı metin göstergesini aktifleştir
+                    liveText.classList.add('active');
+                    liveText.textContent = "Konuşmanız algılanıyor...";
+                    
+                    // Kayıt göstergesini göster
+                    recordingIndicator.classList.add('active');
+                } catch (error) {
+                    console.error('Kayıt başlatma hatası:', error);
+                    statusElement.textContent = 'Kayıt başlatma hatası: ' + error.message;
+                    statusElement.classList.add('error');
+                    isRecording = false;
+                }
+            } else {
+                stopRecording();
+            }
+        }
+        
+        // Kaydı durdur
+        function stopRecording() {
+            if (isRecording) {
+                isRecording = false;
+                recognition.stop();
+                
+                // UI güncelleme
+                micButton.classList.remove('recording');
+                micButton.querySelector('i').className = 'fas fa-microphone';
+                statusElement.textContent = 'Kayıt durduruldu.';
+                
+                // Yeni konuşma metnini mevcut metne ekle (temizleme yerine)
+                if (finalSpeechResult.trim()) {
+                    // Eğer metin alanında zaten metin varsa ve yeni metin ekliyorsak
+                    if (textArea.value && textArea.value.trim() !== finalSpeechResult.trim()) {
+                        textArea.value = textArea.value + "\n\n" + finalSpeechResult.trim();
+                    } else {
+                        textArea.value = finalSpeechResult.trim();
+                    }
+                }
+                
+                // Canlı metin göstergesini gizle
+                liveText.classList.remove('active');
+                recordingIndicator.classList.remove('active');
+                
+                // Reset finalSpeechResult for next recording
+                finalSpeechResult = '';
+            }
+        }
+        
+        // Metni temizle
+        function clearText() {
+            textArea.value = '';
+            liveText.textContent = 'Konuşmanız burada gerçek zamanlı olarak görünecek...';
+            statusElement.textContent = 'Metin temizlendi.';
+        }
+        
+        // Metni seslendir
+        function speakText() {
+            const text = textArea.value.trim();
+            
+            if (!text) {
+                statusElement.textContent = 'Seslendirilecek metin yok.';
+                return;
+            }
+            
+            // Önceki seslendirmeyi durdur
+            stopSpeech();
+            
+            statusElement.textContent = 'Seslendiriliyor...';
+            
+            // Google Translate TTS API kullanarak Türkçe seslendirme
+            useGoogleTTS(text);
+        }
+        
+        // Google Translate TTS API kullanarak seslendirme
+        function useGoogleTTS(text) {
+            try {
+                // Önce önceki seslendirmeleri temizle
+                stopSpeech();
+                
+                statusElement.textContent = 'Google TTS ile seslendiriliyor...';
+                
+                // Metni URL'de kullanılabilir hale getir
+                const encodedText = encodeURIComponent(text);
+                
+                // Metin çok uzunsa, parçalara böl
+                if (encodedText.length > 150) {
+                    splitAndSpeakText(text);
+                    return;
+                }
+                
+                // Google Translate TTS URL'si
+                const ttsUrl = `https://translate.google.com/translate_tts?ie=UTF-8&tl=tr&client=tw-ob&q=${encodedText}`;
+                
+                // Audio elementi oluştur
+                let audioElement = document.getElementById('ttsAudio');
+                if (!audioElement) {
+                    audioElement = document.createElement('audio');
+                    audioElement.id = 'ttsAudio';
+                    audioElement.style.display = 'none';
+                    document.body.appendChild(audioElement);
+                }
+                
+                // Audio elementine URL'yi ayarla
+                audioElement.src = ttsUrl;
+                
+                // Ses hızını ayarla
+                audioElement.playbackRate = speechRate;
+                
+                // Ses yüklendiğinde
+                audioElement.onloadedmetadata = function() {
+                    statusElement.textContent = 'Seslendirme durumu: Konuşuyor...';
+                    console.log("Google TTS başlatıldı");
+                };
+                
+                // Ses bittiğinde
+                audioElement.onended = function() {
+                    statusElement.textContent = 'Seslendirme tamamlandı.';
+                    console.log("Google TTS tamamlandı");
+                };
+                
+                // Ses hata verdiğinde
+                audioElement.onerror = function(e) {
+                    console.error("Google TTS hatası:", e);
+                    statusElement.textContent = 'Hata: Google TTS ile seslendirme yapılamadı. Web Speech API deneniyor...';
+                    
+                    // Önce audio elementini temizle
+                    audioElement.pause();
+                    audioElement.currentTime = 0;
+                    
+                    // Hata durumunda Web Speech API'ye geri dön
+                    useWebSpeechAPI(text);
+                };
+                
+                // Sesi çal
+                audioElement.play().catch(function(e) {
+                    console.error("Audio.play() hatası:", e);
+                    
+                    // Önce audio elementini temizle
+                    audioElement.pause();
+                    audioElement.currentTime = 0;
+                    
+                    // CORS hatası olabilir, alternatif yöntem deneyelim
+                    if (e.name === 'NotSupportedError' || e.name === 'NotAllowedError') {
+                        splitAndSpeakText(text);
+                    } else {
+                        // Diğer hatalar için Web Speech API'ye geri dön
+                        useWebSpeechAPI(text);
+                    }
+                });
+            } catch (error) {
+                console.error("Google TTS genel hatası:", error);
+                // Hata durumunda Web Speech API'ye geri dön
+                useWebSpeechAPI(text);
+            }
+        }
+        
+        // Metni belirli uzunluktaki parçalara böl
+        function splitTextIntoChunks(text, maxLength) {
+            const chunks = [];
+            
+            // Metni noktalama işaretlerine göre böl
+            const sentences = text.split(/(?<=[.!?])\s+/);
+            
+            let currentChunk = '';
+            
+            for (let sentence of sentences) {
+                // Eğer cümle tek başına çok uzunsa, kelimelere göre böl
+                if (sentence.length > maxLength) {
+                    const words = sentence.split(' ');
+                    
+                    for (let word of words) {
+                        if ((currentChunk + ' ' + word).length <= maxLength) {
+                            currentChunk += (currentChunk ? ' ' : '') + word;
+                        } else {
+                            chunks.push(currentChunk);
+                            currentChunk = word;
+                        }
+                    }
+                } 
+                // Cümleyi mevcut parçaya ekle veya yeni parça oluştur
+                else if ((currentChunk + ' ' + sentence).length <= maxLength) {
+                    currentChunk += (currentChunk ? ' ' : '') + sentence;
+                } else {
+                    chunks.push(currentChunk);
+                    currentChunk = sentence;
+                }
+            }
+            
+            // Son parçayı ekle
+            if (currentChunk) {
+                chunks.push(currentChunk);
+            }
+            
+            return chunks;
+        }
+        
+        // Metni parçalara bölerek seslendir
+        function splitAndSpeakText(text) {
+            // Önce önceki seslendirmeleri temizle
+            stopSpeech();
+            
+            const chunks = splitTextIntoChunks(text, 150);
+            statusElement.textContent = `Metin ${chunks.length} parçaya bölündü, seslendiriliyor...`;
+            
+            let currentIndex = 0;
+            
+            function speakNextChunk() {
+                if (currentIndex < chunks.length) {
+                    const chunk = chunks[currentIndex];
+                    currentIndex++;
+                    
+                    // Metni URL'de kullanılabilir hale getir
+                    const encodedText = encodeURIComponent(chunk);
+                    
+                    // Google Translate TTS URL'si
+                    const ttsUrl = `https://translate.google.com/translate_tts?ie=UTF-8&tl=tr&client=tw-ob&q=${encodedText}`;
+                    
+                    // Audio elementi oluştur
+                    let audioElement = document.getElementById('ttsAudio');
+                    if (!audioElement) {
+                        audioElement = document.createElement('audio');
+                        audioElement.id = 'ttsAudio';
+                        audioElement.style.display = 'none';
+                        document.body.appendChild(audioElement);
+                    }
+                    
+                    // Audio elementine URL'yi ayarla
+                    audioElement.src = ttsUrl;
+                    
+                    // Ses hızını ayarla
+                    audioElement.playbackRate = speechRate;
+                    
+                    // Ses bittiğinde sonraki parçayı çal
+                    audioElement.onended = function() {
+                        speakNextChunk();
+                    };
+                    
+                    // Ses hata verdiğinde
+                    audioElement.onerror = function() {
+                        console.error("Parça seslendirme hatası:", currentIndex);
+                        // Önce audio elementini temizle
+                        audioElement.pause();
+                        audioElement.currentTime = 0;
+                        speakNextChunk(); // Hataya rağmen devam et
+                    };
+                    
+                    // Sesi çal
+                    audioElement.play().catch(function() {
+                        console.error("Parça çalma hatası:", currentIndex);
+                        // Önce audio elementini temizle
+                        audioElement.pause();
+                        audioElement.currentTime = 0;
+                        speakNextChunk(); // Hataya rağmen devam et
+                    });
+                } else {
+                    // Tüm parçalar tamamlandı
+                    statusElement.textContent = 'Seslendirme tamamlandı.';
+                }
+            }
+            
+            // İlk parçayı çal
+            speakNextChunk();
+        }
+        
+        // Web Speech API kullanarak seslendirme (yedek yöntem)
+        function useWebSpeechAPI(text) {
+            // Önce audio elementini temizle
+            const audioElement = document.getElementById('ttsAudio');
+            if (audioElement) {
+                audioElement.pause();
+                audioElement.currentTime = 0;
+            }
+            
+            statusElement.textContent = 'Web Speech API ile seslendiriliyor...';
+            
+            // Web Speech API kullan
+            if (window.speechSynthesis) {
+                // Önceki konuşmaları durdur
+                window.speechSynthesis.cancel();
+                
+                speechUtterance = new SpeechSynthesisUtterance(text);
+                speechUtterance.lang = 'tr-TR';
+                speechUtterance.rate = speechRate; // Kullanıcının ayarladığı hızı kullan
+                
+                // Türkçe ses bulmaya çalış - daha sıkı filtreleme
+                const voices = window.speechSynthesis.getVoices();
+                
+                // Önce tam Türkçe eşleşmesini dene
+                let turkishVoice = voices.find(voice => voice.lang === 'tr-TR');
+                
+                // Eğer bulunamazsa, 'tr' içeren herhangi bir sesi dene
+                if (!turkishVoice) {
+                    turkishVoice = voices.find(voice => voice.lang.includes('tr'));
+                }
+                
+                // Eğer hala bulunamazsa, Microsoft veya Google'ın seslerinden birini dene
+                if (!turkishVoice) {
+                    turkishVoice = voices.find(voice => 
+                        (voice.name.includes('Microsoft') || voice.name.includes('Google')) && 
+                        (voice.lang === 'tr-TR' || voice.lang.includes('tr')));
+                }
+                
+                if (turkishVoice) {
+                    console.log('Türkçe ses bulundu:', turkishVoice.name, turkishVoice.lang);
+                    speechUtterance.voice = turkishVoice;
+                } else {
+                    console.log('Türkçe ses bulunamadı, varsayılan ses kullanılıyor');
+                    // Türkçe ses bulunamadıysa, yine de dili Türkçe olarak ayarla
+                    speechUtterance.lang = 'tr-TR';
+                }
+                
+                speechUtterance.onend = function() {
+                    statusElement.textContent = 'Seslendirme tamamlandı.';
+                };
+                
+                speechUtterance.onerror = function(event) {
+                    statusElement.textContent = 'Seslendirme hatası: ' + event.error;
+                    statusElement.classList.add('error');
+                };
+                
+                window.speechSynthesis.speak(speechUtterance);
+            } else {
+                statusElement.textContent = 'Web Speech API desteklenmiyor.';
+            }
+        }
+        
+        // Seslendirmeyi durdur
+        function stopSpeech() {
+            // Web Speech API'yi durdur
+            if (window.speechSynthesis) {
+                window.speechSynthesis.cancel();
+            }
+            
+            // Audio elementini durdur
+            const audioElement = document.getElementById('ttsAudio');
+            if (audioElement) {
+                audioElement.pause();
+                audioElement.currentTime = 0;
+            }
+            
+            statusElement.textContent = 'Seslendirme durduruldu.';
+        }
+        
+        // Sadece asistan cevabını seslendir
+        function speakAssistantResponse(text) {
+            if (!text) {
+                statusElement.textContent = 'Seslendirilecek metin yok.';
+                return;
+            }
+            
+            // Önceki seslendirmeyi durdur
+            stopSpeech();
+            
+            statusElement.textContent = 'Asistan cevabı seslendiriliyor...';
+            
+            // Google Translate TTS API kullanarak Türkçe seslendirme
+            useGoogleTTS(text);
+        }
+        
+        // API'ye metin gönder ve cevabı işle
+        async function sendToLlamaAPI(text) {
+            if (!text.trim()) {
+                statusElement.textContent = 'Gönderilecek metin yok.';
+                return;
+            }
+            
+            // Butonları devre dışı bırak
+            if (sendButton) sendButton.disabled = true;
+            if (micButton) micButton.style.pointerEvents = 'none';
+            
+            statusElement.textContent = 'Metin API\'ye gönderiliyor...';
+            
+            try {
+                console.log("Sending request to API server...");
+                
+                // Kullanıcı metnini ayır
+                const userText = text.trim();
+                
+                // Kullanıcı mesajını konuşma geçmişine ekle
+                conversationHistory.push({
+                    role: "user",
+                    content: userText
+                });
+                
+                console.log("Using API URL:", ACTIVE_API_URL);
+                console.log("User text:", userText);
+                
+                // API isteği gönder
+                let response;
+                
+                if (ACTIVE_API_URL === GEMMA_API_URL) {
+                    // Gemma API formatı
+                    response = await fetch(ACTIVE_API_URL, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({
+                            model: "gemma-3-4b-it",
+                            messages: conversationHistory,
+                            temperature: 0.7,
+                            max_tokens: 1024,
+                            stream: false
+                        })
+                    });
+                } else {
+                    // Yerel API formatı
+                    response = await fetch(ACTIVE_API_URL, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({
+                            text: userText,
+                            conversation_id: conversationId
+                        })
+                    });
+                }
+                
+                if (!response.ok) {
+                    const errorText = await response.text();
+                    console.error("API error response:", errorText);
+                    throw new Error(`API hatası: ${response.status} - ${errorText}`);
+                }
+                
+                const data = await response.json();
+                console.log("API response:", data);
+                
+                // Konuşma ID'sini sakla
+                if (data.conversation_id) {
+                    conversationId = data.conversation_id;
+                    console.log("Konuşma ID'si alındı:", conversationId);
+                }
+                
+                let responseText = "";
+                
+                // Yanıtı işle
+                if (data.choices && data.choices.length > 0 && data.choices[0].message) {
+                    responseText = data.choices[0].message.content;
+                } else if (data.choices && data.choices.length > 0 && data.choices[0].text) {
+                    responseText = data.choices[0].text;
+                } else if (data.response) {
+                    responseText = data.response;
+                } else {
+                    console.error("Unexpected API response format:", data);
+                    responseText = "API yanıtı beklenmeyen formatta. Lütfen konsolu kontrol edin.";
+                }
+                
+                // Asistan yanıtını konuşma geçmişine ekle
+                if (responseText) {
+                    conversationHistory.push({
+                        role: "assistant",
+                        content: responseText
+                    });
+                }
+                
+                // Tamamen temiz bir şekilde görüntüle - önceki metni silip yenisini yaz
+                textArea.value = `Siz: ${userText}\n\nAsistan: ${responseText}`;
+                statusElement.textContent = 'API yanıtı alındı. Seslendirilecek...';
+                
+                // resetButton'ı göster
+                if (resetButton) resetButton.style.display = 'inline-block';
+                
+                // Konuşma geçmişinin boyutunu kontrol et (çok uzunsa kısalt)
+                if (conversationHistory.length > 10) {
+                    // İlk kullanıcı mesajını koru, sonraki birkaç mesajı sil
+                    conversationHistory = [
+                        conversationHistory[0],
+                        ...conversationHistory.slice(conversationHistory.length - 8)
+                    ];
+                    console.log("Konuşma geçmişi kısaltıldı:", conversationHistory);
+                }
+                
+                // Cevabı seslendir
+                setTimeout(() => {
+                    // Sadece asistan cevabını seslendir
+                    speakAssistantResponse(responseText);
+                }, 500);
+                
+            } catch (error) {
+                console.error('API hatası:', error);
+                statusElement.textContent = 'API hatası: ' + error.message;
+                statusElement.classList.add('error');
+                
+                // Hata durumunda daha fazla bilgi göster
+                console.log("Hata detayları:", error);
+                
+                // Hata durumunda sınıfı temizle
+                setTimeout(() => {
+                    statusElement.classList.remove('error');
+                }, 5000);
+            } finally {
+                // Butonları tekrar aktif et
+                if (sendButton) sendButton.disabled = false;
+                if (micButton) micButton.style.pointerEvents = 'auto';
+            }
+        }
+        
+        // API bağlantısını test et
+        async function testAPIConnection() {
+            statusElement.textContent = 'API bağlantısı test ediliyor...';
+            
+            try {
+                // Önce yerel API sunucusunu test et
+                console.log("Testing local API server...");
+                
+                const localApiResponse = await fetch('http://127.0.0.1:5000/api/test');
+                
+                if (localApiResponse.ok) {
+                    const localApiData = await localApiResponse.json();
+                    console.log("Local API server response:", localApiData);
+                    statusElement.textContent = 'Yerel API sunucusu çalışıyor!';
+                    
+                    // Şimdi Gemma API bağlantısını test et
+                    console.log("Testing Gemma API connection...");
+                    statusElement.textContent = 'Gemma API bağlantısı test ediliyor...';
+                    
+                    const gemmaTestResponse = await fetch('http://127.0.0.1:5000/api/test_gemma');
+                    
+                    if (gemmaTestResponse.ok) {
+                        const gemmaTestData = await gemmaTestResponse.json();
+                        console.log("Gemma API test response:", gemmaTestData);
+                        
+                        if (gemmaTestData.status === "success") {
+                            statusElement.textContent = 'Gemma API bağlantısı başarılı!';
+                        } else {
+                            statusElement.textContent = 'Gemma API bağlantı hatası: ' + gemmaTestData.message;
+                        }
+                    } else {
+                        const errorText = await gemmaTestResponse.text();
+                        console.error("Gemma API test error:", errorText);
+                        statusElement.textContent = 'Gemma API bağlantı hatası: ' + gemmaTestResponse.status;
+                    }
+                } else {
+                    const errorText = await localApiResponse.text();
+                    console.error("Local API server error:", errorText);
+                    statusElement.textContent = 'Yerel API sunucusu çalışmıyor! Lütfen server.py dosyasını çalıştırın.';
+                }
+            } catch (error) {
+                console.error("API test error:", error);
+                statusElement.textContent = 'API test hatası: ' + error.message;
+                statusElement.classList.add('error');
+                
+                // Hata durumunda sınıfı temizle
+                setTimeout(() => {
+                    statusElement.classList.remove('error');
+                }, 5000);
+            }
+        }
+        
+        // Konuşmayı sıfırla (yeni bir konuşma başlat)
+        function resetConversation() {
+            // Konuşma geçmişini temizle
+            conversationHistory = [];
+            
+            // Metin alanını temizle
+            textArea.value = '';
+            
+            statusElement.textContent = 'Konuşma sıfırlandı, yeni bir konuşma başlatıldı.';
+            
+            // resetButton'ı gizle
+            if (resetButton) resetButton.style.display = 'none';
+        }
+        
+        // Event Listeners
+        if (micButton) micButton.addEventListener('click', startRecording);
+        if (clearButton) clearButton.addEventListener('click', clearText);
+        if (sendButton) sendButton.addEventListener('click', function() {
+            sendToLlamaAPI(textArea.value);
+        });
+        if (speakButton) speakButton.addEventListener('click', speakText);
+        if (stopButton) stopButton.addEventListener('click', stopSpeech);
+        if (resetButton) resetButton.addEventListener('click', resetConversation);
+        if (testButton) testButton.addEventListener('click', testAPIConnection);
+        
+        // Konuşma hızı kontrolü için event listener
+        const speechRateSlider = document.getElementById('speechRate');
+        const rateValueDisplay = document.getElementById('rateValue');
+        
+        if (speechRateSlider) speechRateSlider.addEventListener('input', function() {
+            speechRate = parseFloat(this.value);
+            if (rateValueDisplay) rateValueDisplay.textContent = speechRate.toFixed(1);
+            
+            // Eğer şu anda Web Speech API ile konuşuyorsa, hızı güncelle
+            if (window.speechSynthesis && window.speechSynthesis.speaking) {
+                window.speechSynthesis.cancel();
+                if (speechUtterance) {
+                    speechUtterance.rate = speechRate;
+                    window.speechSynthesis.speak(speechUtterance);
+                }
+            }
+            
+            // Eğer şu anda Google TTS ile konuşuyorsa, hızı güncelle
+            const audioElement = document.getElementById('ttsAudio');
+            if (audioElement && !audioElement.paused) {
+                audioElement.playbackRate = speechRate;
+            }
+        });
+        
+        // Sayfa yüklendiğinde
+        window.onload = function() {
+            // Önce tarayıcı desteğini kontrol et
+            const browserSupported = checkBrowserSupport();
+            
+            // Tarayıcı destekliyorsa konuşma tanımayı başlat
+            if (browserSupported !== false) {
+                setupSpeechRecognition();
+                console.log("Konuşma tanıma işlevi başlatıldı");
+            }
+            
+            // Ses sentezi seslerini yükle ve Türkçe sesleri konsola yazdır
+            speechSynthesis.onvoiceschanged = function() {
+                const voices = speechSynthesis.getVoices();
+                console.log('Kullanılabilir sesler:', voices);
+                
+                // Türkçe sesleri filtrele ve konsola yazdır
+                const turkishVoices = voices.filter(voice => 
+                    voice.lang === 'tr-TR' || voice.lang.includes('tr'));
+                
+                console.log('Türkçe sesler:', turkishVoices);
+                
+                if (turkishVoices.length === 0) {
+                    console.log('Hiç Türkçe ses bulunamadı!');
+                }
+            };
+            
+            // İlk yüklemede sesleri almaya çalış
+            speechSynthesis.getVoices();
+        };
+    </script>
+</body>
+</html>
