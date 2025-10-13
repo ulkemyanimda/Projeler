@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <title>YouTube SCORM Oluşturucu</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            background: linear-gradient(135deg, #e8f0fe, #f9fbfd);
+            min-height: 100vh;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            padding: 40px 10px;
+        }
+
+        .container {
+            background: #fff;
+            border-radius: 16px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            padding: 30px 40px;
+            width: 100%;
+            max-width: 650px;
+            animation: fadeIn 0.6s ease-in-out;
+        }
+
+        h1 {
+            text-align: center;
+            color: #2c3e50;
+            font-size: 1.8rem;
+            margin-bottom: 10px;
+        }
+
+        p.subtitle {
+            text-align: center;
+            color: #555;
+            font-size: 0.95rem;
+            margin-bottom: 25px;
+        }
+
+        label {
+            font-weight: 600;
+            color: #2c3e50;
+            display: block;
+            margin-top: 15px;
+        }
+
+        input, button, textarea {
+            width: 100%;
+            padding: 12px 14px;
+            margin-top: 8px;
+            border-radius: 10px;
+            border: 1px solid #ccc;
+            font-size: 1rem;
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+
+        input:focus, textarea:focus {
+            outline: none;
+            border-color: #2980b9;
+            box-shadow: 0 0 6px rgba(41, 128, 185, 0.3);
+        }
+
+        button {
+            background: #2980b9;
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-weight: 600;
+            margin-top: 25px;
+            transition: background 0.3s, transform 0.1s;
+        }
+
+        button:hover {
+            background: #1f6391;
+            transform: translateY(-2px);
+        }
+
+        small {
+            color: #666;
+            font-size: 0.85rem;
+        }
+
+        .error {
+            color: #e74c3c;
+            background: #fdecea;
+            padding: 10px 14px;
+            border-radius: 10px;
+            margin-bottom: 15px;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(15px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                padding: 25px 20px;
+            }
+            h1 {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>YouTube SCORM Paketi Oluşturucu</h1>
+        <p class="subtitle">YouTube videolarını SCORM formatına dönüştürün ve LMS sisteminize kolayca yükleyin.</p>
+
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="error">{{ message }}</div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+
+        <form method="POST" action="/create" enctype="multipart/form-data">
+            <label>YouTube Video URL'si:</label>
+            <input type="url" name="url" required placeholder="https://www.youtube.com/watch?v=...">
+
+            <label>İçerik Başlığı:</label>
+            <input type="text" name="title" required placeholder="Örnek: Güvenlik Eğitimi">
+
+            <label>Video Süresi (saniye):</label>
+            <input type="number" name="duration" required min="1" placeholder="310">
+
+            <label>Soru CSV Dosyası:</label>
+            <input type="file" name="csv_file" accept=".csv" required>
+            <small>CSV formatı: sure,soru,a,b,c,d,cevap (cevap: 0=a, 1=b, vs.)</small>
+
+            <button type="submit">📦 SCORM Paketini Oluştur ve İndir</button>
+        </form>
+    </div>
+</body>
+</html>

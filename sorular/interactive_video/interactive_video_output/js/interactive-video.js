@@ -6,130 +6,108 @@ let currentTime = 0;
 let questionsShown = [];
 let score = 0;
 let checkInterval;
-let totalQuestions = 11;
+let totalQuestions = 9;
 
 // Soruların listesi
 const questions = [
   {
-    "time": 43,
-    "question": "Sevgili \u00e7ocuklar, sizce \u201c\u00c7anakkale Ge\u00e7ilmez\u201d ne demektir?",
+    "time": 15,
+    "question": "Hik\u00e2ye hangi mevsimde ge\u00e7iyor?",
     "options": [
-      "\u00c7anakkale Sava\u015f\u0131\u2019nda T\u00fcrk askerlerinin b\u00fcy\u00fck bir kahramanl\u0131kla vatan\u0131 savunarak d\u00fc\u015fman\u0131 ge\u00e7irmemesi anlam\u0131na gelir.",
-      " \u00c7anakkale'de hi\u00e7 sava\u015f olmam\u0131\u015ft\u0131r, bu y\u00fczden kimse ge\u00e7ememi\u015ftir. ",
-      "\u00c7anakkale sadece turistlere kapal\u0131 oldu\u011fu i\u00e7in ge\u00e7ilemez denmi\u015ftir. ",
-      "\u00c7anakkale\u2019de k\u00f6pr\u00fc olmad\u0131\u011f\u0131 i\u00e7in ge\u00e7mek m\u00fcmk\u00fcn olmam\u0131\u015ft\u0131r."
+      "K\u0131\u015f",
+      "Sonbahar",
+      "Yaz",
+      "\u0130lkbahar"
+    ],
+    "correct_index": 2
+  },
+  {
+    "time": 30,
+    "question": "Alp ve G\u00f6k\u00e7e neyle oynuyorlard\u0131?",
+    "options": [
+      "Top",
+      "\u0130p",
+      "Frizbi",
+      "Kum"
     ],
     "correct_index": 0
   },
   {
-    "time": 97,
-    "question": "\u00c7ocuklar haftasonu gezisi i\u00e7in hangi \u015fehri ziyaret edecekler?",
+    "time": 45,
+    "question": "\u0130pek Ali ve Zeynep ne yap\u0131yorlard\u0131?",
     "options": [
-      "Edirne",
-      "Sivas",
-      "\u00c7anakkale",
-      "Kaysei"
+      "Saklamba\u00e7 oynuyorlard\u0131",
+      "\u0130p atl\u0131yorlard\u0131",
+      "Top oynuyorlard\u0131",
+      "Resim yap\u0131yorlard\u0131"
     ],
-    "correct_index": 2
+    "correct_index": 1
+  },
+  {
+    "time": 60,
+    "question": "\u00c7ocuklara limonata getiren kimdi?",
+    "options": [
+      "Fatma teyze",
+      "Ay\u015fe teyze",
+      "Emine teyze",
+      "Hasan amca"
+    ],
+    "correct_index": 1
+  },
+  {
+    "time": 75,
+    "question": "Ay\u015fe teyze \u00e7ocuklara ne getirdi?",
+    "options": [
+      "Kurabiye",
+      "Limonata",
+      "Kek",
+      "Meyve suyu"
+    ],
+    "correct_index": 1
+  },
+  {
+    "time": 90,
+    "question": "Fatma teyze \u00e7ocuklara ne getirdi?",
+    "options": [
+      "Kek",
+      "Limonata",
+      "Su",
+      "Kurabiye"
+    ],
+    "correct_index": 3
+  },
+  {
+    "time": 105,
+    "question": "Fatma teyze \u00e7ocuklara ne s\u00f6yledi?",
+    "options": [
+      "Biraz sessiz olun dedi",
+      "Limonatan\u0131n yan\u0131na kurabiye de iyi gider dedi",
+      "Bah\u00e7eyi sulay\u0131n dedi",
+      "Ders \u00e7al\u0131\u015f\u0131n dedi"
+    ],
+    "correct_index": 1
+  },
+  {
+    "time": 120,
+    "question": "Hasan amca ve Emine teyze nereden d\u00f6n\u00fcyordu?",
+    "options": [
+      "Parktan",
+      "Pazardan",
+      "Okuldan",
+      "Hastaneden"
+    ],
+    "correct_index": 1
   },
   {
     "time": 135,
-    "question": "Cephe ne demektir?",
+    "question": "Hasan amcan\u0131n elindeki fileler nas\u0131ld\u0131?",
     "options": [
-      "Sava\u015f\u0131n yap\u0131ld\u0131\u011f\u0131 yer",
-      "Askerlerin s\u0131\u011f\u0131na\u011f\u0131",
-      "Askerlerin yemek yedi\u011fi yer",
-      ""
-    ],
-    "correct_index": 0
-  },
-  {
-    "time": 180,
-    "question": "D\u00fc\u015fmanlar \u00c7anakkale'yi ge\u00e7ip hangi \u015fehire gitmek istiyorlard\u0131?",
-    "options": [
-      "Samsun",
-      "\u0130stanbul",
-      "Ankara",
-      ""
-    ],
-    "correct_index": 1
-  },
-  {
-    "time": 200,
-    "question": "Bu g\u00f6rd\u00fc\u011f\u00fcn\u00fcz top mermisi ka\u00e7 kg a\u011f\u0131rl\u0131\u011f\u0131nda olabilir?",
-    "options": [
-      "10",
-      "200",
-      "275",
-      "300"
+      "Bo\u015ftu",
+      "\u00c7ok hafifti",
+      "\u00c7ok a\u011f\u0131rd\u0131",
+      "Renkliydi"
     ],
     "correct_index": 2
-  },
-  {
-    "time": 223,
-    "question": "275 kiloluk top mermisini ta\u015f\u0131yan kahraman askerrin ad\u0131 nedir?",
-    "options": [
-      "Seyit Onba\u015f\u0131 ",
-      "Koca Yusuf",
-      "Naim S\u00fcleymano\u011flu ",
-      "Kara Fatma"
-    ],
-    "correct_index": 0
-  },
-  {
-    "time": 282,
-    "question": "D\u00fc\u015fman gemilerinin geri d\u00f6nmesini sa\u011flayan may\u0131n gemisinin ad\u0131 nedir?",
-    "options": [
-      "Seyit",
-      "Nusret",
-      "Murat",
-      ""
-    ],
-    "correct_index": 1
-  },
-  {
-    "time": 311,
-    "question": "Conk bay\u0131r\u0131ndan sava\u015f\u0131 y\u00f6neten komutan kimdir?",
-    "options": [
-      "Enver Pa\u015fa",
-      "Gazi Osman Pa\u015fa",
-      "Mustafa Kemal Atat\u00fcrk",
-      "Kaz\u0131m Karabekir"
-    ],
-    "correct_index": 2
-  },
-  {
-    "time": 341,
-    "question": "\u015eehit ne demektir?",
-    "options": [
-      "Vatan\u0131n\u0131 korumak i\u00e7in yaralanan ki\u015fi",
-      "Vatan\u0131n\u0131 korumak i\u00e7in askere giden ki\u015fi",
-      "Vatan\u0131n\u0131 korumak i\u00e7in can\u0131n\u0131 veren ki\u015fi",
-      ""
-    ],
-    "correct_index": 2
-  },
-  {
-    "time": 371,
-    "question": "Sizce \u00c7anakkale\u2019yi \u201cge\u00e7ilmez\u201d yapan nedir?",
-    "options": [
-      "T\u00fcrk askerlerinin vatan sevgisi, cesareti ve birlik ruhu",
-      "D\u00fc\u015fman gemilerinin yanl\u0131\u015f yola sapmas\u0131",
-      "Havan\u0131n \u00e7ok ya\u011fmurlu olmas\u0131",
-      "\u00c7anakkale\u2019de hi\u00e7 sava\u015f olmamas\u0131"
-    ],
-    "correct_index": 0
-  },
-  {
-    "time": 434,
-    "question": "\u00c7anakkale'yi ge\u00e7ilmez k\u0131lan a\u015fa\u011f\u0131dakilerden hangisidir?",
-    "options": [
-      "Askerlerin cesareti ve merhameti",
-      "Askerlerin azmi ve kararl\u0131l\u0131\u011f\u0131",
-      "\u00c7anakkale ruhu",
-      "hepsi"
-    ],
-    "correct_index": 3
   }
 ];
 
@@ -138,7 +116,7 @@ function onYouTubeIframeAPIReady() {
     player = new YT.Player('player', {
         height: '500',
         width: '100%',
-        videoId: 'LRrVe9yYt4I',
+        videoId: 'k1VO_KtXATM',
         playerVars: {
             'playsinline': 1,
             'rel': 0,

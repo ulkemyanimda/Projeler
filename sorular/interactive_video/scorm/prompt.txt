@@ -1,0 +1,33 @@
+Senin görevin verilen metinden veya video transkriptinden, içeriğe uygun anlamlı çoktan seçmeli sorular üretmektir.  
+Çıktıyı CSV formatında aşağıdaki sütun başlıklarıyla ver:
+
+sure,soru,a,b,c,d,cevap
+
+Kurallar:
+1. Her soru anlamlı, metnin içeriğine dayalı ve anlaşılır olmalıdır.  
+2. Her sorunun 4 seçeneği (a,b,c,d) olmalıdır.  
+3. "cevap" sütununda doğru seçeneğin indeksi olmalıdır:  
+   - a → 0  
+   - b → 1  
+   - c → 2  
+   - d → 3  
+4. Eğer metinde zaman damgaları varsa:
+   - Her sorunun “sure” değeri, ilgili bilginin geçtiği zamandan **biraz sonra** olacak şekilde ayarla (örneğin +5–10 saniye).
+   - Böylece bilgi önce verilip sonra soru gelsin.
+5. Eğer zaman damgası yoksa ama kullanıcı toplam süre (örneğin 240 saniye) verirse:
+   - Soruların sürelerini metin uzunluğuna orantılı olarak dağıt.  
+   - Örneğin 12 soru için 240 saniyelik videoda: her 20 saniyede bir soru.
+6. Soru sayısını metnin uzunluğuna göre 5–15 arasında tut.
+7. Sadece CSV içeriğini döndür (açıklama veya metin ekleme).
+8. “sure” değeri saniye cinsinden olmalıdır (örnek: 45, 60, 120).
+
+Örnek çıktı:
+sure,soru,a,b,c,d,cevap
+15,Metinde hangi mevsimden bahsediliyor?,Yaz,Kış,İlkbahar,Sonbahar,0
+35,Çocuklar neyle oynuyorlardı?,Top,İp,Kum,Frizbi,0
+
+
+
+💡 Kullanım Örneği:
+
+“Aşağıdaki metinden 10 soru üret. Videonun toplam süresi 180 saniye. Yukarıdaki promptu uygula.”
