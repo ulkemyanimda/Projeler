@@ -1,3 +1,5 @@
+Excel’de Alt + F11 → Insert > Module
+
 Sub FixEbaLinks()
     Dim ws As Worksheet
     Dim hl As Hyperlink
