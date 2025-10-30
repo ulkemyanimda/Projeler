@@ -1,0 +1,37 @@
+Sub FixEbaLinks()
+    Dim ws As Worksheet
+    Dim hl As Hyperlink
+    Dim oldAddr As String, newAddr As String
+    Dim courseId As String
+    Dim cnt As Long
+    
+    Application.ScreenUpdating = False
+    cnt = 0
+    
+    For Each ws In ThisWorkbook.Worksheets
+        For Each hl In ws.Hyperlinks
+            oldAddr = hl.Address
+            
+            ' Hedef patern kontrolü
+            If InStr(1, oldAddr, "moodle/course/management.php?categoryid=", vbTextCompare) > 0 And InStr(1, oldAddr, "&courseid=", vbTextCompare) > 0 Then
+                ' courseid degerini al
+                courseId = Split(oldAddr, "&courseid=")(1)
+                ' Eger courseid sonrasi baska parametre yoksa courseId temiz kalsin
+                If InStr(courseId, "&") > 0 Then
+                    courseId = Split(courseId, "&")(0)
+                End If
+                
+                ' Yeni adresi olustur
+                newAddr = "https://ulkemyanimda.eba.gov.tr/moodle/course/view.php?id=" & courseId
+                
+                ' Adresi güncelle
+                hl.Address = newAddr
+                cnt = cnt + 1
+            End If
+        Next hl
+    Next ws
+    
+    Application.ScreenUpdating = True
+    MsgBox cnt & " adet link dönüstürüldü.", vbInformation, "Islem Tamam"
+End Sub
+
