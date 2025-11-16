@@ -1,4 +1,4 @@
-# FFT Uygulaması - Pipeline İşlemleri
+# Pipeline İşlemleri
 
 Bu klasör, öğrencilerin sınıflara yerleştirilmesi ve ders atanması için kullanılan Python betikleri içerir. Pipeline, öğrenci verilerini işlemek, sınıflar oluşturmak, optimize etmek ve son olarak LMS sistemine aktarmak için tasarlanmıştır.
 
