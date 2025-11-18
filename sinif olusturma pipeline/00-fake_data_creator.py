@@ -130,7 +130,7 @@ def generate_random_date():
     
     gun = gun_isimleri[random_date.weekday()]
     ay = ay_isimleri[random_date.month]
-    saat = f"{random.randint(0, 23):02d}:{random.randint(0, 59):02d}"
+    saat = f"{random.randint(1, 12):02d}:{random.randint(0, 59):02d}"
     ampm = "AM" if random.randint(0, 1) == 0 else "PM"
     
     return f"{gun}, {random_date.day} {ay} {random_date.year}, {saat} {ampm}"
