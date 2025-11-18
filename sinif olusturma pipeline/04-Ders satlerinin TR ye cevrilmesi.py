@@ -22,10 +22,10 @@ files_add=find_the_way(path,'.xlsx')
 files_add
 
 
-lines = [["Kod","Ulke","Yas",  "Gun","saat" ,"profile_field_dilseviyesi"]]
+lines = [["Kod","Ulke","YAS",  "Gun","saat" ,"SEVIYE"]]
 for i in files_add:
     df=pd.read_excel(i)
-    code=i[15:]
+    code=i[15:-5]
     temp=df["Orijinal_Dosya"].unique()[0]
     temp=temp.split("@")
     ulke=temp[1]
@@ -83,9 +83,9 @@ df["gun_saat_tr"] = df["Gun"] + df["saat_tr"].astype(str)
 # ===============================
 
 # Yeni dosya olarak kaydet
-df.to_excel("veriler_tr.xlsx", index=False)
+df.to_excel("ogrenciler.xlsx", index=False)
 
-print("Yeni Excel dosyası oluşturuldu: veriler_tr.xlsx")
+print("Yeni Excel dosyası oluşturuldu: ogrenciler.xlsx")
 print("\nDataFrame'in son hali (ilk 5 satır):")
 print(df.head())
 
