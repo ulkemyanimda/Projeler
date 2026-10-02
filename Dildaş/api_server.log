@@ -1,0 +1,179 @@
+2026-03-01 12:39:15,526 - werkzeug - INFO -  * Restarting with watchdog (windowsapi)
+2026-03-01 12:39:15,860 - werkzeug - WARNING -  * Debugger is active!
+2026-03-01 12:39:15,878 - werkzeug - INFO -  * Debugger PIN: 690-028-234
+2026-03-01 12:39:15,897 - werkzeug - INFO -  * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+2026-03-01 12:39:34,290 - werkzeug - INFO - 127.0.0.1 - - [01/Mar/2026 12:39:34] "OPTIONS /api/chat HTTP/1.1" 200 -
+2026-03-01 12:39:34,320 - werkzeug - INFO -  * Detected change in 'C:\\Python313\\Lib\\logging\\__init__.py', reloading
+2026-03-01 12:39:34,382 - werkzeug - INFO -  * Detected change in 'C:\\Python313\\Lib\\encodings\\cp1252.py', reloading
+2026-03-01 12:39:34,387 - werkzeug - INFO -  * Detected change in 'C:\\Users\\kahra\\AppData\\Roaming\\Python\\Python313\\site-packages\\werkzeug\\debug\\__init__.py', reloading
+2026-03-01 12:39:34,388 - werkzeug - INFO -  * Detected change in 'C:\\Users\\kahra\\AppData\\Roaming\\Python\\Python313\\site-packages\\werkzeug\\serving.py', reloading
+2026-03-01 12:39:34,388 - werkzeug - INFO -  * Detected change in 'C:\\Python313\\Lib\\socketserver.py', reloading
+2026-03-01 12:39:34,389 - werkzeug - INFO -  * Detected change in 'C:\\Python313\\Lib\\threading.py', reloading
+2026-03-01 12:39:34,397 - werkzeug - INFO -  * Detected change in 'C:\\Python313\\Lib\\netrc.py', reloading
+2026-03-01 12:39:34,434 - __main__ - ERROR - Gemma API error: 400 - {
+    "error": {
+        "message": "No models loaded. Please load a model in the developer page or use the 'lms load' command.",
+        "type": "invalid_request_error",
+        "param": "model",
+        "code": null
+    }
+}
+2026-03-01 12:39:34,435 - werkzeug - INFO - 127.0.0.1 - - [01/Mar/2026 12:39:34] "[35m[1mPOST /api/chat HTTP/1.1[0m" 500 -
+2026-03-01 12:39:35,188 - werkzeug - INFO -  * Restarting with watchdog (windowsapi)
+2026-03-01 12:39:35,574 - werkzeug - WARNING -  * Debugger is active!
+2026-03-01 12:39:35,580 - werkzeug - INFO -  * Debugger PIN: 690-028-234
+2026-03-01 12:39:35,598 - werkzeug - INFO -  * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+2026-03-01 12:41:13,039 - werkzeug - INFO - 127.0.0.1 - - [01/Mar/2026 12:41:13] "OPTIONS /api/chat HTTP/1.1" 200 -
+2026-03-01 12:41:13,091 - __main__ - ERROR - Gemma API error: 400 - {
+    "error": {
+        "message": "No models loaded. Please load a model in the developer page or use the 'lms load' command.",
+        "type": "invalid_request_error",
+        "param": "model",
+        "code": null
+    }
+}
+2026-03-01 12:41:13,093 - werkzeug - INFO - 127.0.0.1 - - [01/Mar/2026 12:41:13] "[35m[1mPOST /api/chat HTTP/1.1[0m" 500 -
+2026-03-01 12:41:29,180 - werkzeug - INFO - 127.0.0.1 - - [01/Mar/2026 12:41:29] "OPTIONS /api/chat HTTP/1.1" 200 -
+2026-03-01 12:41:29,244 - __main__ - ERROR - Gemma API error: 400 - {
+    "error": {
+        "message": "No models loaded. Please load a model in the developer page or use the 'lms load' command.",
+        "type": "invalid_request_error",
+        "param": "model",
+        "code": null
+    }
+}
+2026-03-01 12:41:29,246 - werkzeug - INFO - 127.0.0.1 - - [01/Mar/2026 12:41:29] "[35m[1mPOST /api/chat HTTP/1.1[0m" 500 -
+2026-03-01 12:45:57,193 - werkzeug - INFO - 127.0.0.1 - - [01/Mar/2026 12:45:57] "OPTIONS /api/chat HTTP/1.1" 200 -
+2026-03-01 12:45:59,588 - werkzeug - INFO - 127.0.0.1 - - [01/Mar/2026 12:45:59] "POST /api/chat HTTP/1.1" 200 -
+2026-03-01 12:46:57,132 - werkzeug - INFO -  * Detected change in 'C:\\Users\\kahra\\Desktop\\Dildash\\server.py', reloading
+2026-03-01 12:46:57,140 - werkzeug - INFO -  * Detected change in 'C:\\Users\\kahra\\Desktop\\Dildash\\server.py', reloading
+2026-03-01 12:46:57,863 - werkzeug - INFO -  * Restarting with watchdog (windowsapi)
+2026-03-01 12:46:58,206 - werkzeug - WARNING -  * Debugger is active!
+2026-03-01 12:46:58,211 - werkzeug - INFO -  * Debugger PIN: 690-028-234
+2026-03-01 12:46:58,228 - werkzeug - INFO -  * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+2026-03-01 12:47:06,435 - werkzeug - INFO -  * Restarting with watchdog (windowsapi)
+2026-03-01 12:47:06,750 - werkzeug - WARNING -  * Debugger is active!
+2026-03-01 12:47:06,754 - werkzeug - INFO -  * Debugger PIN: 690-028-234
+2026-03-01 12:47:06,770 - werkzeug - INFO -  * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+2026-03-01 12:47:27,013 - werkzeug - INFO - 127.0.0.1 - - [01/Mar/2026 12:47:27] "OPTIONS /api/chat HTTP/1.1" 200 -
+2026-03-01 12:47:27,857 - werkzeug - INFO - 127.0.0.1 - - [01/Mar/2026 12:47:27] "POST /api/chat HTTP/1.1" 200 -
+2026-03-01 12:47:52,709 - werkzeug - INFO - 127.0.0.1 - - [01/Mar/2026 12:47:52] "OPTIONS /api/chat HTTP/1.1" 200 -
+2026-03-01 12:47:53,642 - werkzeug - INFO - 127.0.0.1 - - [01/Mar/2026 12:47:53] "POST /api/chat HTTP/1.1" 200 -
+2026-03-01 12:48:13,348 - werkzeug - INFO - 127.0.0.1 - - [01/Mar/2026 12:48:13] "OPTIONS /api/chat HTTP/1.1" 200 -
+2026-03-01 12:48:13,351 - __main__ - INFO - Received request: {'text': 'sana ne sana ne sana ne sana ne', 'conversation_id': '03f810a4-5457-4a8c-a8c5-739e09093420'}
+2026-03-01 12:48:14,104 - werkzeug - INFO - 127.0.0.1 - - [01/Mar/2026 12:48:14] "POST /api/chat HTTP/1.1" 200 -
+2026-03-01 12:51:28,076 - werkzeug - INFO -  * Detected change in 'C:\\Users\\kahra\\Desktop\\Dildash\\server.py', reloading
+2026-03-01 12:51:28,076 - werkzeug - INFO -  * Detected change in 'C:\\Users\\kahra\\Desktop\\Dildash\\server.py', reloading
+2026-03-01 12:51:28,241 - werkzeug - INFO -  * Restarting with watchdog (windowsapi)
+2026-03-01 12:51:28,611 - werkzeug - WARNING -  * Debugger is active!
+2026-03-01 12:51:28,616 - werkzeug - INFO -  * Debugger PIN: 690-028-234
+2026-03-01 12:51:28,632 - werkzeug - INFO -  * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+2026-03-01 12:52:22,040 - werkzeug - INFO -  * Detected change in 'C:\\Users\\kahra\\Desktop\\Dildash\\server.py', reloading
+2026-03-01 12:52:22,041 - werkzeug - INFO -  * Detected change in 'C:\\Users\\kahra\\Desktop\\Dildash\\server.py', reloading
+2026-03-01 12:52:22,424 - werkzeug - INFO -  * Restarting with watchdog (windowsapi)
+2026-03-01 12:52:22,780 - werkzeug - WARNING -  * Debugger is active!
+2026-03-01 12:52:22,785 - werkzeug - INFO -  * Debugger PIN: 690-028-234
+2026-03-01 12:52:22,804 - werkzeug - INFO -  * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+2026-03-01 12:58:27,466 - werkzeug - INFO -  * Restarting with watchdog (windowsapi)
+2026-03-01 12:58:27,754 - werkzeug - WARNING -  * Debugger is active!
+2026-03-01 12:58:27,759 - werkzeug - INFO -  * Debugger PIN: 690-028-234
+2026-03-01 12:58:27,774 - werkzeug - INFO -  * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+2026-03-01 12:59:05,282 - werkzeug - INFO - 127.0.0.1 - - [01/Mar/2026 12:59:05] "OPTIONS /api/chat HTTP/1.1" 200 -
+2026-03-01 12:59:07,697 - werkzeug - INFO - 127.0.0.1 - - [01/Mar/2026 12:59:07] "POST /api/chat HTTP/1.1" 200 -
+2026-03-01 12:59:24,673 - werkzeug - INFO - 127.0.0.1 - - [01/Mar/2026 12:59:24] "OPTIONS /api/chat HTTP/1.1" 200 -
+2026-03-01 12:59:24,684 - __main__ - INFO - Received request: {'text': 'ya benim moralim bozuktu', 'conversation_id': '35107025-ccc9-4c60-a539-f708fcd36584'}
+2026-03-01 12:59:25,808 - werkzeug - INFO - 127.0.0.1 - - [01/Mar/2026 12:59:25] "POST /api/chat HTTP/1.1" 200 -
+2026-03-01 12:59:42,041 - werkzeug - INFO - 127.0.0.1 - - [01/Mar/2026 12:59:42] "OPTIONS /api/chat HTTP/1.1" 200 -
+2026-03-01 12:59:44,141 - werkzeug - INFO - 127.0.0.1 - - [01/Mar/2026 12:59:44] "POST /api/chat HTTP/1.1" 200 -
+2026-03-01 13:00:00,591 - werkzeug - INFO - 127.0.0.1 - - [01/Mar/2026 13:00:00] "OPTIONS /api/chat HTTP/1.1" 200 -
+2026-03-01 13:00:02,473 - werkzeug - INFO - 127.0.0.1 - - [01/Mar/2026 13:00:02] "POST /api/chat HTTP/1.1" 200 -
+2026-03-01 13:00:16,659 - werkzeug - INFO - 127.0.0.1 - - [01/Mar/2026 13:00:16] "OPTIONS /api/chat HTTP/1.1" 200 -
+2026-03-01 13:00:16,664 - __main__ - INFO - Received request: {'text': 'aaa sana ses', 'conversation_id': '35107025-ccc9-4c60-a539-f708fcd36584'}
+2026-03-01 13:00:17,588 - werkzeug - INFO - 127.0.0.1 - - [01/Mar/2026 13:00:17] "POST /api/chat HTTP/1.1" 200 -
+2026-03-01 13:00:40,611 - werkzeug - INFO - 127.0.0.1 - - [01/Mar/2026 13:00:40] "OPTIONS /api/chat HTTP/1.1" 200 -
+2026-03-01 13:00:42,250 - werkzeug - INFO - 127.0.0.1 - - [01/Mar/2026 13:00:42] "POST /api/chat HTTP/1.1" 200 -
+2026-03-01 13:00:59,602 - werkzeug - INFO - 127.0.0.1 - - [01/Mar/2026 13:00:59] "OPTIONS /api/chat HTTP/1.1" 200 -
+2026-03-01 13:01:01,417 - werkzeug - INFO - 127.0.0.1 - - [01/Mar/2026 13:01:01] "POST /api/chat HTTP/1.1" 200 -
+2026-03-01 13:01:21,571 - werkzeug - INFO - 127.0.0.1 - - [01/Mar/2026 13:01:21] "OPTIONS /api/chat HTTP/1.1" 200 -
+2026-03-01 13:01:35,795 - werkzeug - INFO - 127.0.0.1 - - [01/Mar/2026 13:01:35] "OPTIONS /api/chat HTTP/1.1" 200 -
+2026-03-01 13:01:37,257 - werkzeug - INFO - 127.0.0.1 - - [01/Mar/2026 13:01:37] "POST /api/chat HTTP/1.1" 200 -
+2026-03-01 13:01:53,930 - werkzeug - INFO - 127.0.0.1 - - [01/Mar/2026 13:01:53] "OPTIONS /api/chat HTTP/1.1" 200 -
+2026-03-01 13:01:55,796 - __main__ - INFO - Gemma API response: {'id': 'chatcmpl-c3dccockpeee0or9zftda', 'object': 'chat.completion', 'created': 1772359313, 'model': 'meta-llama-3.1-8b-instruct', 'choices': [{'index': 0, 'message': {'role': 'assistant', 'content': 'Pekala, ilkokula gidiyorsun. Yemek yerken ne yiyeceksin?', 'tool_calls': []}, 'logprobs': None, 'finish_reason': 'stop'}], 'usage': {'prompt_tokens': 936, 'completion_tokens': 25, 'total_tokens': 961}, 'stats': {}, 'system_fingerprint': 'meta-llama-3.1-8b-instruct'}
+2026-03-01 13:01:55,797 - werkzeug - INFO - 127.0.0.1 - - [01/Mar/2026 13:01:55] "POST /api/chat HTTP/1.1" 200 -
+2026-03-01 13:02:12,154 - werkzeug - INFO - 127.0.0.1 - - [01/Mar/2026 13:02:12] "OPTIONS /api/chat HTTP/1.1" 200 -
+2026-03-01 13:02:13,497 - werkzeug - INFO - 127.0.0.1 - - [01/Mar/2026 13:02:13] "POST /api/chat HTTP/1.1" 200 -
+2026-03-01 13:03:54,661 - werkzeug - INFO -  * Restarting with watchdog (windowsapi)
+2026-03-01 13:03:54,950 - werkzeug - WARNING -  * Debugger is active!
+2026-03-01 13:03:54,954 - werkzeug - INFO -  * Debugger PIN: 690-028-234
+2026-03-01 13:03:54,972 - werkzeug - INFO -  * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+2026-03-01 13:04:13,466 - werkzeug - INFO - 127.0.0.1 - - [01/Mar/2026 13:04:13] "OPTIONS /api/chat HTTP/1.1" 200 -
+2026-03-01 13:04:15,167 - werkzeug - INFO - 127.0.0.1 - - [01/Mar/2026 13:04:15] "POST /api/chat HTTP/1.1" 200 -
+2026-03-01 13:04:33,261 - werkzeug - INFO - 127.0.0.1 - - [01/Mar/2026 13:04:33] "OPTIONS /api/chat HTTP/1.1" 200 -
+2026-03-01 13:04:35,079 - werkzeug - INFO - 127.0.0.1 - - [01/Mar/2026 13:04:35] "POST /api/chat HTTP/1.1" 200 -
+2026-03-01 13:04:53,963 - werkzeug - INFO - 127.0.0.1 - - [01/Mar/2026 13:04:53] "OPTIONS /api/chat HTTP/1.1" 200 -
+2026-03-01 13:04:55,959 - werkzeug - INFO - 127.0.0.1 - - [01/Mar/2026 13:04:55] "POST /api/chat HTTP/1.1" 200 -
+2026-03-01 13:05:17,316 - werkzeug - INFO - 127.0.0.1 - - [01/Mar/2026 13:05:17] "OPTIONS /api/chat HTTP/1.1" 200 -
+2026-03-01 13:05:18,326 - werkzeug - INFO - 127.0.0.1 - - [01/Mar/2026 13:05:18] "POST /api/chat HTTP/1.1" 200 -
+2026-03-01 13:05:33,613 - werkzeug - INFO - 127.0.0.1 - - [01/Mar/2026 13:05:33] "OPTIONS /api/chat HTTP/1.1" 200 -
+2026-03-01 13:05:35,355 - werkzeug - INFO - 127.0.0.1 - - [01/Mar/2026 13:05:35] "POST /api/chat HTTP/1.1" 200 -
+2026-03-01 13:06:00,699 - werkzeug - INFO - 127.0.0.1 - - [01/Mar/2026 13:06:00] "OPTIONS /api/chat HTTP/1.1" 200 -
+2026-03-01 13:06:02,584 - werkzeug - INFO - 127.0.0.1 - - [01/Mar/2026 13:06:02] "POST /api/chat HTTP/1.1" 200 -
+2026-03-01 13:06:25,448 - werkzeug - INFO - 127.0.0.1 - - [01/Mar/2026 13:06:25] "OPTIONS /api/chat HTTP/1.1" 200 -
+2026-03-01 13:06:26,524 - werkzeug - INFO - 127.0.0.1 - - [01/Mar/2026 13:06:26] "POST /api/chat HTTP/1.1" 200 -
+2026-03-01 13:06:45,076 - werkzeug - INFO - 127.0.0.1 - - [01/Mar/2026 13:06:45] "OPTIONS /api/chat HTTP/1.1" 200 -
+2026-03-01 13:06:45,079 - __main__ - INFO - Received request: {'text': 'intihar etmek isterim', 'conversation_id': 'd6bbc4af-c636-44a9-856f-2287fa1c0280'}
+2026-03-01 13:06:46,866 - werkzeug - INFO - 127.0.0.1 - - [01/Mar/2026 13:06:46] "POST /api/chat HTTP/1.1" 200 -
+2026-03-01 13:35:23,347 - werkzeug - INFO -  * Detected change in 'C:\\Users\\kahra\\AppData\\Roaming\\Python\\Python313\\site-packages\\flask\\__init__.py', reloading
+2026-03-01 13:35:23,348 - werkzeug - INFO -  * Detected change in 'C:\\Users\\kahra\\AppData\\Roaming\\Python\\Python313\\site-packages\\flask\\app.py', reloading
+2026-03-01 13:35:23,375 - werkzeug - INFO -  * Detected change in 'C:\\Users\\kahra\\AppData\\Roaming\\Python\\Python313\\site-packages\\flask\\scaffold.py', reloading
+2026-03-01 13:35:23,407 - werkzeug - INFO -  * Detected change in 'C:\\Users\\kahra\\AppData\\Roaming\\Python\\Python313\\site-packages\\flask\\globals.py', reloading
+2026-03-01 13:35:23,409 - werkzeug - INFO -  * Detected change in 'C:\\Users\\kahra\\AppData\\Roaming\\Python\\Python313\\site-packages\\flask\\wrappers.py', reloading
+2026-03-01 13:35:23,412 - werkzeug - INFO -  * Detected change in 'C:\\Users\\kahra\\AppData\\Roaming\\Python\\Python313\\site-packages\\werkzeug\\wrappers\\__init__.py', reloading
+2026-03-01 13:35:23,413 - werkzeug - INFO -  * Detected change in 'C:\\Users\\kahra\\AppData\\Roaming\\Python\\Python313\\site-packages\\werkzeug\\wrappers\\request.py', reloading
+2026-03-01 13:35:23,419 - werkzeug - INFO -  * Detected change in 'C:\\Users\\kahra\\AppData\\Roaming\\Python\\Python313\\site-packages\\werkzeug\\sansio\\request.py', reloading
+2026-03-01 13:35:23,428 - werkzeug - INFO -  * Detected change in 'C:\\Users\\kahra\\AppData\\Roaming\\Python\\Python313\\site-packages\\flask\\json\\__init__.py', reloading
+2026-03-01 13:35:23,434 - werkzeug - INFO -  * Detected change in 'C:\\Users\\kahra\\AppData\\Roaming\\Python\\Python313\\site-packages\\werkzeug\\wrappers\\response.py', reloading
+2026-03-01 13:35:23,442 - werkzeug - INFO -  * Detected change in 'C:\\Users\\kahra\\AppData\\Roaming\\Python\\Python313\\site-packages\\werkzeug\\sansio\\response.py', reloading
+2026-03-01 13:35:23,520 - werkzeug - INFO -  * Detected change in 'C:\\Users\\kahra\\AppData\\Roaming\\Python\\Python313\\site-packages\\flask\\sessions.py', reloading
+2026-03-01 13:35:23,523 - werkzeug - INFO -  * Detected change in 'C:\\Users\\kahra\\AppData\\Roaming\\Python\\Python313\\site-packages\\flask\\json\\tag.py', reloading
+2026-03-01 13:35:23,540 - werkzeug - INFO -  * Detected change in 'C:\\Users\\kahra\\AppData\\Roaming\\Python\\Python313\\site-packages\\flask\\config.py', reloading
+2026-03-01 13:35:23,549 - werkzeug - INFO -  * Detected change in 'C:\\Users\\kahra\\AppData\\Roaming\\Python\\Python313\\site-packages\\flask\\blueprints.py', reloading
+2026-03-01 13:35:23,556 - werkzeug - INFO -  * Detected change in 'C:\\Users\\kahra\\AppData\\Roaming\\Python\\Python313\\site-packages\\werkzeug\\utils.py', reloading
+2026-03-01 13:35:23,563 - werkzeug - INFO -  * Detected change in 'C:\\Users\\kahra\\AppData\\Roaming\\Python\\Python313\\site-packages\\werkzeug\\_internal.py', reloading
+2026-03-01 13:35:23,646 - werkzeug - INFO -  * Restarting with watchdog (windowsapi)
+2026-03-01 13:35:24,039 - werkzeug - WARNING -  * Debugger is active!
+2026-03-01 13:35:24,046 - werkzeug - INFO -  * Debugger PIN: 690-028-234
+2026-03-01 13:35:24,075 - werkzeug - INFO -  * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+2026-03-01 13:35:33,075 - werkzeug - INFO -  * Detected change in 'C:\\Users\\kahra\\Desktop\\Dildash\\server.py', reloading
+2026-03-01 13:35:33,076 - werkzeug - INFO -  * Detected change in 'C:\\Users\\kahra\\Desktop\\Dildash\\server.py', reloading
+2026-03-01 13:35:33,259 - werkzeug - INFO -  * Restarting with watchdog (windowsapi)
+2026-03-01 13:35:33,594 - werkzeug - WARNING -  * Debugger is active!
+2026-03-01 13:35:33,599 - werkzeug - INFO -  * Debugger PIN: 690-028-234
+2026-03-01 13:35:33,614 - werkzeug - INFO -  * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+2026-03-01 13:35:42,460 - werkzeug - INFO -  * Restarting with watchdog (windowsapi)
+2026-03-01 13:35:42,733 - werkzeug - WARNING -  * Debugger is active!
+2026-03-01 13:35:42,738 - werkzeug - INFO -  * Debugger PIN: 690-028-234
+2026-03-01 13:35:42,755 - werkzeug - INFO -  * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+2026-03-01 13:36:04,873 - werkzeug - INFO - 127.0.0.1 - - [01/Mar/2026 13:36:04] "OPTIONS /api/chat HTTP/1.1" 200 -
+2026-03-01 13:36:07,455 - werkzeug - INFO - 127.0.0.1 - - [01/Mar/2026 13:36:07] "POST /api/chat HTTP/1.1" 200 -
+2026-03-01 13:37:01,118 - werkzeug - INFO - 127.0.0.1 - - [01/Mar/2026 13:37:01] "OPTIONS /api/chat HTTP/1.1" 200 -
+2026-03-01 13:37:03,378 - werkzeug - INFO - 127.0.0.1 - - [01/Mar/2026 13:37:03] "OPTIONS /api/chat HTTP/1.1" 200 -
+2026-03-01 13:37:03,383 - __main__ - INFO - Received request: {'text': 'bugün', 'conversation_id': '458d04b9-fd36-4a88-b63b-030093d72f69'}
+2026-03-01 13:37:05,166 - werkzeug - INFO - 127.0.0.1 - - [01/Mar/2026 13:37:05] "POST /api/chat HTTP/1.1" 200 -
+2026-03-01 13:37:06,960 - werkzeug - INFO - 127.0.0.1 - - [01/Mar/2026 13:37:06] "POST /api/chat HTTP/1.1" 200 -
+2026-03-01 13:37:36,446 - werkzeug - INFO - 127.0.0.1 - - [01/Mar/2026 13:37:36] "OPTIONS /api/chat HTTP/1.1" 200 -
+2026-03-01 13:37:40,025 - werkzeug - INFO - 127.0.0.1 - - [01/Mar/2026 13:37:40] "POST /api/chat HTTP/1.1" 200 -
+2026-03-01 13:38:12,061 - werkzeug - INFO - 127.0.0.1 - - [01/Mar/2026 13:38:12] "OPTIONS /api/chat HTTP/1.1" 200 -
+2026-03-01 13:38:15,599 - werkzeug - INFO - 127.0.0.1 - - [01/Mar/2026 13:38:15] "POST /api/chat HTTP/1.1" 200 -
+2026-03-01 13:38:47,166 - werkzeug - INFO - 127.0.0.1 - - [01/Mar/2026 13:38:47] "OPTIONS /api/chat HTTP/1.1" 200 -
+2026-03-01 13:38:49,387 - werkzeug - INFO - 127.0.0.1 - - [01/Mar/2026 13:38:49] "OPTIONS /api/chat HTTP/1.1" 200 -
+2026-03-01 13:38:52,417 - werkzeug - INFO - 127.0.0.1 - - [01/Mar/2026 13:38:52] "POST /api/chat HTTP/1.1" 200 -
+2026-03-01 13:38:53,493 - werkzeug - INFO - 127.0.0.1 - - [01/Mar/2026 13:38:53] "POST /api/chat HTTP/1.1" 200 -
+2026-03-01 13:39:24,931 - werkzeug - INFO - 127.0.0.1 - - [01/Mar/2026 13:39:24] "OPTIONS /api/chat HTTP/1.1" 200 -
+2026-03-01 13:39:29,147 - werkzeug - INFO - 127.0.0.1 - - [01/Mar/2026 13:39:29] "POST /api/chat HTTP/1.1" 200 -
+2026-03-01 13:40:09,334 - werkzeug - INFO - 127.0.0.1 - - [01/Mar/2026 13:40:09] "OPTIONS /api/chat HTTP/1.1" 200 -
+2026-03-01 13:40:15,114 - werkzeug - INFO - 127.0.0.1 - - [01/Mar/2026 13:40:15] "POST /api/chat HTTP/1.1" 200 -
+2026-03-01 13:41:06,433 - werkzeug - INFO - 127.0.0.1 - - [01/Mar/2026 13:41:06] "OPTIONS /api/chat HTTP/1.1" 200 -
+2026-03-01 13:41:10,055 - werkzeug - INFO - 127.0.0.1 - - [01/Mar/2026 13:41:10] "POST /api/chat HTTP/1.1" 200 -
+2026-03-01 13:42:07,285 - werkzeug - INFO - 127.0.0.1 - - [01/Mar/2026 13:42:07] "OPTIONS /api/chat HTTP/1.1" 200 -
+2026-03-01 13:42:12,469 - werkzeug - INFO - 127.0.0.1 - - [01/Mar/2026 13:42:12] "POST /api/chat HTTP/1.1" 200 -

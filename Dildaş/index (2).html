@@ -1,0 +1,1071 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dildaş — Türkçe Konuşma Arkadaşı</title>
+    <link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <style>
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+        :root {
+            --bg: #0d1117;
+            --surface: #161b22;
+            --surface2: #1c2330;
+            --border: #2a3441;
+            --accent: #4f8ef7;
+            --accent2: #7b5ea7;
+            --green: #3fb950;
+            --red: #f85149;
+            --amber: #f0a84e;
+            --text: #e6edf3;
+            --text-muted: #7d8590;
+            --text-dim: #484f58;
+            --user-bubble: #1a2744;
+            --bot-bubble: #1c2330;
+            --radius: 16px;
+            --shadow: 0 8px 32px rgba(0,0,0,0.4);
+        }
+
+        html, body {
+            height: 100%;
+            font-family: 'Sora', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            overflow: hidden;
+        }
+
+        /* === LAYOUT === */
+        .app {
+            display: grid;
+            grid-template-rows: auto 1fr auto;
+            height: 100vh;
+            max-width: 860px;
+            margin: 0 auto;
+        }
+
+        /* === HEADER === */
+        header {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            padding: 18px 24px 14px;
+            border-bottom: 1px solid var(--border);
+            backdrop-filter: blur(10px);
+        }
+
+        .avatar-wrap {
+            position: relative;
+            flex-shrink: 0;
+        }
+
+        .avatar {
+            width: 46px;
+            height: 46px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--accent), var(--accent2));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 22px;
+        }
+
+        .avatar-status {
+            position: absolute;
+            bottom: 1px; right: 1px;
+            width: 11px; height: 11px;
+            border-radius: 50%;
+            background: var(--green);
+            border: 2px solid var(--bg);
+            transition: background 0.3s;
+        }
+        .avatar-status.talking { background: var(--accent); animation: statusPulse 1s infinite; }
+        .avatar-status.thinking { background: var(--amber); animation: statusPulse 0.6s infinite; }
+
+        .header-info { flex: 1; }
+        .header-name {
+            font-family: 'DM Serif Display', serif;
+            font-size: 1.15rem;
+            letter-spacing: 0.01em;
+        }
+        .header-sub {
+            font-size: 0.72rem;
+            color: var(--text-muted);
+            margin-top: 1px;
+        }
+
+        .header-badge {
+            font-size: 0.65rem;
+            color: var(--accent);
+            background: rgba(79,142,247,0.1);
+            border: 1px solid rgba(79,142,247,0.25);
+            border-radius: 20px;
+            padding: 3px 10px;
+            font-weight: 500;
+            letter-spacing: 0.04em;
+            text-transform: uppercase;
+        }
+
+        .btn-icon {
+            background: none;
+            border: none;
+            color: var(--text-muted);
+            cursor: pointer;
+            width: 34px; height: 34px;
+            border-radius: 8px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 14px;
+            transition: all 0.2s;
+        }
+        .btn-icon:hover { background: var(--surface2); color: var(--text); }
+
+        /* === CHAT AREA === */
+        .chat-area {
+            overflow-y: auto;
+            padding: 24px 20px 12px;
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+            scroll-behavior: smooth;
+        }
+
+        .chat-area::-webkit-scrollbar { width: 4px; }
+        .chat-area::-webkit-scrollbar-track { background: transparent; }
+        .chat-area::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
+
+        /* Welcome state */
+        .welcome {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+            gap: 16px;
+            text-align: center;
+            opacity: 0;
+            animation: fadeUp 0.6s 0.2s forwards;
+        }
+
+        .welcome-icon {
+            width: 72px; height: 72px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--accent), var(--accent2));
+            display: flex; align-items: center; justify-content: center;
+            font-size: 30px;
+            box-shadow: 0 0 40px rgba(79,142,247,0.3);
+        }
+
+        .welcome h2 {
+            font-family: 'DM Serif Display', serif;
+            font-size: 1.6rem;
+            font-weight: 400;
+        }
+        .welcome p {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            max-width: 320px;
+            line-height: 1.6;
+        }
+
+        .welcome-hint {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 10px 16px;
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            margin-top: 4px;
+        }
+
+        /* Messages */
+        .msg {
+            display: flex;
+            gap: 10px;
+            align-items: flex-end;
+            opacity: 0;
+            animation: fadeUp 0.3s forwards;
+        }
+
+        .msg.user { flex-direction: row-reverse; }
+
+        .msg-avatar {
+            width: 28px; height: 28px;
+            border-radius: 50%;
+            flex-shrink: 0;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 12px;
+            font-weight: 600;
+        }
+        .msg.bot .msg-avatar { background: linear-gradient(135deg, var(--accent), var(--accent2)); }
+        .msg.user .msg-avatar { background: linear-gradient(135deg, #2a4a8a, #1a3060); color: var(--text-muted); }
+
+        .msg-body { max-width: 75%; }
+
+        .msg-bubble {
+            padding: 11px 15px;
+            border-radius: 14px;
+            font-size: 0.875rem;
+            line-height: 1.65;
+            word-break: break-word;
+        }
+        .msg.bot .msg-bubble {
+            background: var(--bot-bubble);
+            border: 1px solid var(--border);
+            border-bottom-left-radius: 4px;
+        }
+        .msg.user .msg-bubble {
+            background: var(--user-bubble);
+            border: 1px solid rgba(79,142,247,0.2);
+            border-bottom-right-radius: 4px;
+            text-align: left;
+        }
+
+        .msg-time {
+            font-size: 0.65rem;
+            color: var(--text-dim);
+            margin-top: 4px;
+            padding: 0 4px;
+        }
+        .msg.user .msg-time { text-align: right; }
+
+        /* Typing indicator */
+        .typing-dots {
+            display: flex;
+            gap: 4px;
+            padding: 13px 16px;
+        }
+        .typing-dots span {
+            width: 6px; height: 6px;
+            border-radius: 50%;
+            background: var(--text-dim);
+            animation: bounce 1.2s infinite;
+        }
+        .typing-dots span:nth-child(2) { animation-delay: 0.2s; }
+        .typing-dots span:nth-child(3) { animation-delay: 0.4s; }
+
+        /* === INPUT FOOTER === */
+        .footer {
+            padding: 14px 20px 20px;
+            border-top: 1px solid var(--border);
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        /* Live transcript bar */
+        .transcript-bar {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 9px 14px;
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            min-height: 38px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            display: none;
+            transition: all 0.3s;
+        }
+        .transcript-bar.visible { display: flex; }
+        .transcript-bar .interim { color: var(--text-dim); font-style: italic; }
+        .transcript-bar .final { color: var(--text); }
+
+        .rec-dot {
+            width: 7px; height: 7px;
+            border-radius: 50%;
+            background: var(--red);
+            flex-shrink: 0;
+            animation: blink 1s infinite;
+        }
+
+        /* Controls row */
+        .controls-row {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .text-input-wrap {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            overflow: hidden;
+            transition: border-color 0.2s;
+        }
+        .text-input-wrap:focus-within {
+            border-color: rgba(79,142,247,0.5);
+        }
+
+        .text-input {
+            flex: 1;
+            background: none;
+            border: none;
+            outline: none;
+            color: var(--text);
+            font-family: 'Sora', sans-serif;
+            font-size: 0.875rem;
+            padding: 11px 14px;
+            resize: none;
+            height: 44px;
+            line-height: 1.4;
+        }
+        .text-input::placeholder { color: var(--text-dim); }
+
+        .btn-send {
+            background: var(--accent);
+            border: none;
+            color: white;
+            width: 40px; height: 40px;
+            border-radius: 9px;
+            cursor: pointer;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 13px;
+            transition: all 0.2s;
+            flex-shrink: 0;
+            margin: 2px;
+        }
+        .btn-send:hover { background: #3a7de8; transform: scale(1.05); }
+        .btn-send:disabled { opacity: 0.4; cursor: not-allowed; transform: none; }
+
+        /* Mic button */
+        .btn-mic {
+            width: 48px; height: 48px;
+            border-radius: 50%;
+            border: 2px solid var(--border);
+            background: var(--surface);
+            color: var(--text-muted);
+            font-size: 16px;
+            cursor: pointer;
+            display: flex; align-items: center; justify-content: center;
+            transition: all 0.25s;
+            flex-shrink: 0;
+            position: relative;
+        }
+        .btn-mic:hover { border-color: var(--accent); color: var(--accent); }
+        .btn-mic.listening {
+            background: rgba(248,81,73,0.12);
+            border-color: var(--red);
+            color: var(--red);
+            animation: micPulse 2s infinite;
+        }
+        .btn-mic.processing {
+            background: rgba(240,168,78,0.12);
+            border-color: var(--amber);
+            color: var(--amber);
+        }
+        .btn-mic.speaking {
+            background: rgba(79,142,247,0.12);
+            border-color: var(--accent);
+            color: var(--accent);
+        }
+
+        .btn-mic .ripple {
+            position: absolute;
+            inset: -6px;
+            border-radius: 50%;
+            border: 2px solid var(--red);
+            opacity: 0;
+        }
+        .btn-mic.listening .ripple {
+            animation: ripple 2s infinite;
+        }
+
+        /* Status chip */
+        .status-chip {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            justify-content: center;
+        }
+        .status-chip .dot {
+            width: 6px; height: 6px;
+            border-radius: 50%;
+            background: var(--green);
+        }
+        .status-chip.error .dot { background: var(--red); }
+        .status-chip.processing .dot { background: var(--amber); animation: blink 0.8s infinite; }
+        .status-chip.listening .dot { background: var(--red); animation: blink 1s infinite; }
+
+        /* Speed control */
+        .speed-row {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 0.72rem;
+            color: var(--text-dim);
+        }
+        .speed-row input[type=range] {
+            flex: 1;
+            -webkit-appearance: none;
+            height: 3px;
+            background: var(--border);
+            border-radius: 3px;
+            outline: none;
+        }
+        .speed-row input[type=range]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 13px; height: 13px;
+            border-radius: 50%;
+            background: var(--accent);
+            cursor: pointer;
+        }
+
+        /* Silence countdown ring */
+        .mic-countdown {
+            position: absolute;
+            inset: -4px;
+            border-radius: 50%;
+        }
+        .mic-countdown circle {
+            fill: none;
+            stroke: var(--red);
+            stroke-width: 2;
+            stroke-linecap: round;
+            transform: rotate(-90deg);
+            transform-origin: center;
+            transition: stroke-dashoffset 0.1s linear;
+        }
+
+        /* === ANIMATIONS === */
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes bounce {
+            0%, 60%, 100% { transform: translateY(0); }
+            30% { transform: translateY(-6px); }
+        }
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.2; }
+        }
+        @keyframes micPulse {
+            0%, 100% { box-shadow: 0 0 0 0 rgba(248,81,73,0.3); }
+            50% { box-shadow: 0 0 0 10px rgba(248,81,73,0); }
+        }
+        @keyframes ripple {
+            0% { transform: scale(1); opacity: 0.5; }
+            100% { transform: scale(1.6); opacity: 0; }
+        }
+        @keyframes statusPulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.4; }
+        }
+
+        /* Tooltip */
+        [data-tip] { position: relative; }
+        [data-tip]:hover::after {
+            content: attr(data-tip);
+            position: absolute;
+            bottom: calc(100% + 6px);
+            left: 50%;
+            transform: translateX(-50%);
+            background: #2a3441;
+            color: var(--text);
+            font-size: 0.68rem;
+            padding: 4px 9px;
+            border-radius: 6px;
+            white-space: nowrap;
+            pointer-events: none;
+            z-index: 10;
+        }
+
+        /* Toast */
+        .toast {
+            position: fixed;
+            bottom: 90px;
+            left: 50%;
+            transform: translateX(-50%) translateY(20px);
+            background: var(--surface2);
+            border: 1px solid var(--border);
+            color: var(--text);
+            padding: 8px 16px;
+            border-radius: 8px;
+            font-size: 0.78rem;
+            opacity: 0;
+            transition: all 0.3s;
+            z-index: 100;
+            pointer-events: none;
+        }
+        .toast.show {
+            opacity: 1;
+            transform: translateX(-50%) translateY(0);
+        }
+
+        /* Scrollbar for entire app */
+        * { scrollbar-width: thin; scrollbar-color: var(--border) transparent; }
+
+        @media (max-width: 600px) {
+            .app { max-width: 100%; }
+            header { padding: 14px 16px; }
+            .chat-area { padding: 16px 14px 8px; }
+            .footer { padding: 10px 14px 16px; }
+            .msg-body { max-width: 88%; }
+            .header-badge { display: none; }
+        }
+    </style>
+</head>
+<body>
+<div class="app">
+
+    <!-- HEADER -->
+    <header>
+        <div class="avatar-wrap">
+            <div class="avatar">
+                <img src="./img/d1.svg" alt="Dildaş" style="width:34px;height:34px;object-fit:contain;">
+            </div>
+            <div class="avatar-status" id="avatarStatus"></div>
+        </div>
+        <div class="header-info">
+            <div class="header-name">Dildaş</div>
+            <div class="header-sub">Türkçe Konuşma Arkadaşı</div>
+        </div>
+        <div class="header-badge">AI Destekli</div>
+        <button class="btn-icon" id="btnReset" data-tip="Konuşmayı sıfırla" title="Sıfırla">
+            <i class="fas fa-rotate-left"></i>
+        </button>
+        <button class="btn-icon" id="btnStop" data-tip="Sesi durdur" title="Durdur">
+            <i class="fas fa-stop"></i>
+        </button>
+    </header>
+
+    <!-- CHAT AREA -->
+    <div class="chat-area" id="chatArea">
+        <div class="welcome" id="welcomeScreen">
+            <div class="welcome-icon"><img src="./img/d1.svg" alt="Dildaş" style="width:42px;height:42px;object-fit:contain;"></div>
+            <h2>Merhaba! Ben Dildaş.</h2>
+            <p>Türkçe konuşma pratiği yapmana yardımcı olmak için buradayım. Seninle sohbet etmeye hazırım.</p>
+            <div class="welcome-hint">
+                <i class="fas fa-microphone" style="color:var(--accent)"></i>
+                Mikrofon butonuna bas ve konuşmaya başla — susman yeterli!
+            </div>
+        </div>
+    </div>
+
+    <!-- FOOTER -->
+    <div class="footer">
+        <!-- Live transcript -->
+        <div class="transcript-bar" id="transcriptBar">
+            <div class="rec-dot"></div>
+            <span id="transcriptText">Dinleniyor...</span>
+        </div>
+
+        <!-- Main controls -->
+        <div class="controls-row">
+            <!-- Mic button with SVG countdown ring -->
+            <button class="btn-mic" id="btnMic" data-tip="Mikrofon">
+                <div class="ripple"></div>
+                <svg class="mic-countdown" id="countdownRing" viewBox="0 0 56 56" style="display:none">
+                    <circle id="countdownCircle" cx="28" cy="28" r="26" stroke-dasharray="163.4" stroke-dashoffset="163.4"/>
+                </svg>
+                <i class="fas fa-microphone" id="micIcon"></i>
+            </button>
+
+            <!-- Text input -->
+            <div class="text-input-wrap">
+                <textarea class="text-input" id="textInput" placeholder="Mesaj yaz..." rows="1"></textarea>
+                <button class="btn-send" id="btnSend" title="Gönder">
+                    <i class="fas fa-paper-plane"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Status + speed -->
+        <div style="display:flex; align-items:center; gap:16px;">
+            <div class="status-chip" id="statusChip">
+                <div class="dot"></div>
+                <span id="statusText">Hazır</span>
+            </div>
+            <div class="speed-row" style="flex:1;">
+                <i class="fas fa-gauge-simple" style="font-size:10px"></i>
+                <input type="range" id="speechRate" min="0.5" max="2" step="0.1" value="1.0">
+                <span id="rateValue" style="min-width:28px">1.0x</span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+// ============================================================
+//  STATE
+// ============================================================
+const LOCAL_API_URL = 'http://127.0.0.1:5000/api/chat';
+let conversationId = null;
+let isRecording = false;
+let isBotSpeaking = false;
+let recognition = null;
+let finalSpeechResult = '';
+let interimSpeechResult = '';
+let speechRate = 1.0;
+let silenceTimer = null;
+let silenceSeconds = 0;
+const SILENCE_TIMEOUT = 2000; // ms of silence before auto-send
+const RING_CIRCUMFERENCE = 163.4;
+
+// ============================================================
+//  DOM
+// ============================================================
+const chatArea = document.getElementById('chatArea');
+const welcomeScreen = document.getElementById('welcomeScreen');
+const btnMic = document.getElementById('btnMic');
+const micIcon = document.getElementById('micIcon');
+const btnSend = document.getElementById('btnSend');
+const btnStop = document.getElementById('btnStop');
+const btnReset = document.getElementById('btnReset');
+const textInput = document.getElementById('textInput');
+const transcriptBar = document.getElementById('transcriptBar');
+const transcriptText = document.getElementById('transcriptText');
+const statusText = document.getElementById('statusText');
+const statusChip = document.getElementById('statusChip');
+const avatarStatus = document.getElementById('avatarStatus');
+const countdownRing = document.getElementById('countdownRing');
+const countdownCircle = document.getElementById('countdownCircle');
+const speechRateSlider = document.getElementById('speechRate');
+const rateValueDisplay = document.getElementById('rateValue');
+
+// ============================================================
+//  UTILS
+// ============================================================
+function setStatus(text, type = 'idle') {
+    statusText.textContent = text;
+    statusChip.className = 'status-chip ' + type;
+}
+
+function setAvatarStatus(type) {
+    avatarStatus.className = 'avatar-status ' + type;
+}
+
+function showToast(msg) {
+    const toast = document.getElementById('toast');
+    toast.textContent = msg;
+    toast.classList.add('show');
+    setTimeout(() => toast.classList.remove('show'), 2500);
+}
+
+function now() {
+    return new Date().toLocaleTimeString('tr-TR', { hour: '2-digit', minute: '2-digit' });
+}
+
+function hideWelcome() {
+    if (welcomeScreen && welcomeScreen.parentNode) {
+        welcomeScreen.style.opacity = '0';
+        welcomeScreen.style.transition = 'opacity 0.3s';
+        setTimeout(() => welcomeScreen.remove(), 300);
+    }
+}
+
+// ============================================================
+//  CHAT RENDERING
+// ============================================================
+function addMessage(role, text) {
+    hideWelcome();
+    const div = document.createElement('div');
+    div.className = `msg ${role}`;
+
+    const initials = role === 'user' ? '<i class="fas fa-user" style="font-size:11px"></i>' : '<img src="./img/d1.svg" alt="D" style="width:16px;height:16px;object-fit:contain;">';
+    div.innerHTML = `
+        <div class="msg-avatar">${initials}</div>
+        <div class="msg-body">
+            <div class="msg-bubble">${escapeHtml(text)}</div>
+            <div class="msg-time">${now()}</div>
+        </div>
+    `;
+    chatArea.appendChild(div);
+    chatArea.scrollTop = chatArea.scrollHeight;
+    return div;
+}
+
+function addTypingIndicator() {
+    hideWelcome();
+    const div = document.createElement('div');
+    div.className = 'msg bot';
+    div.id = 'typingIndicator';
+    div.innerHTML = `
+        <div class="msg-avatar"><img src="./img/d1.svg" alt="D" style="width:16px;height:16px;object-fit:contain;"></div>
+        <div class="msg-body">
+            <div class="msg-bubble">
+                <div class="typing-dots"><span></span><span></span><span></span></div>
+            </div>
+        </div>
+    `;
+    chatArea.appendChild(div);
+    chatArea.scrollTop = chatArea.scrollHeight;
+    return div;
+}
+
+function removeTypingIndicator() {
+    const el = document.getElementById('typingIndicator');
+    if (el) el.remove();
+}
+
+function escapeHtml(text) {
+    return text.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/\n/g,'<br>');
+}
+
+// ============================================================
+//  SPEECH RECOGNITION
+// ============================================================
+function setupRecognition() {
+    window.SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+    if (!window.SpeechRecognition) {
+        setStatus('Tarayıcı mikrofon desteklemiyor', 'error');
+        btnMic.disabled = true;
+        return;
+    }
+    recognition = new window.SpeechRecognition();
+    recognition.lang = 'tr-TR';
+    recognition.continuous = true;
+    recognition.interimResults = true;
+
+    recognition.onresult = (e) => {
+        let interim = '';
+        let finals = '';
+
+        for (let i = e.resultIndex; i < e.results.length; i++) {
+            if (e.results[i].isFinal) {
+                finals += e.results[i][0].transcript + ' ';
+            } else {
+                interim += e.results[i][0].transcript;
+            }
+        }
+
+        if (finals) {
+            finalSpeechResult += finals;
+            resetSilenceTimer();
+        }
+
+        interimSpeechResult = interim;
+        const display = finalSpeechResult + (interim ? '<span class="interim">' + interim + '</span>' : '');
+        transcriptText.innerHTML = '<div class="rec-dot" style="display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--red);margin-right:6px;flex-shrink:0;animation:blink 1s infinite"></div>' + 
+            (display || 'Dinleniyor...');
+
+        if (finals) startSilenceCountdown();
+    };
+
+    recognition.onerror = (e) => {
+        if (e.error === 'no-speech') return;
+        setStatus('Hata: ' + e.error, 'error');
+        stopRecording(false);
+    };
+
+    recognition.onend = () => {
+        if (isRecording) {
+            try { recognition.start(); } catch(e) {}
+        }
+    };
+}
+
+// ============================================================
+//  SILENCE DETECTION & COUNTDOWN RING
+// ============================================================
+function startSilenceCountdown() {
+    clearTimeout(silenceTimer);
+    countdownRing.style.display = 'block';
+
+    let elapsed = 0;
+    const interval = 50;
+    const totalMs = SILENCE_TIMEOUT;
+
+    function tick() {
+        elapsed += interval;
+        const progress = elapsed / totalMs;
+        const offset = RING_CIRCUMFERENCE * (1 - progress);
+        countdownCircle.style.strokeDashoffset = offset;
+
+        if (elapsed >= totalMs) {
+            // Auto-send
+            if (finalSpeechResult.trim()) {
+                stopRecording(true); // true = auto-submit
+            } else {
+                countdownRing.style.display = 'none';
+            }
+        } else {
+            silenceTimer = setTimeout(tick, interval);
+        }
+    }
+
+    silenceTimer = setTimeout(tick, interval);
+}
+
+function resetSilenceTimer() {
+    clearTimeout(silenceTimer);
+    countdownCircle.style.strokeDashoffset = RING_CIRCUMFERENCE;
+    countdownRing.style.display = 'none';
+}
+
+// ============================================================
+//  RECORDING CONTROL
+// ============================================================
+function startRecording() {
+    if (isBotSpeaking) {
+        stopSpeech();
+        return;
+    }
+
+    if (!recognition) setupRecognition();
+    if (!recognition) return;
+
+    isRecording = true;
+    finalSpeechResult = '';
+    interimSpeechResult = '';
+
+    try { recognition.start(); } catch(e) {}
+
+    btnMic.classList.add('listening');
+    micIcon.className = 'fas fa-stop';
+    setStatus('Dinleniyor — susman yeterli', 'listening');
+    setAvatarStatus('');
+    transcriptBar.classList.add('visible');
+    transcriptText.textContent = 'Dinleniyor...';
+}
+
+function stopRecording(autoSubmit = false) {
+    isRecording = false;
+    clearTimeout(silenceTimer);
+    resetSilenceTimer();
+
+    if (recognition) {
+        try { recognition.stop(); } catch(e) {}
+    }
+
+    btnMic.classList.remove('listening');
+    micIcon.className = 'fas fa-microphone';
+    transcriptBar.classList.remove('visible');
+    setStatus('Hazır');
+
+    const text = finalSpeechResult.trim();
+    finalSpeechResult = '';
+
+    if (autoSubmit && text) {
+        sendMessage(text);
+    } else if (!autoSubmit && text) {
+        // Manual stop — still send
+        sendMessage(text);
+    }
+}
+
+function toggleMic() {
+    if (isRecording) {
+        stopRecording(false);
+    } else {
+        startRecording();
+    }
+}
+
+// ============================================================
+//  API
+// ============================================================
+async function sendMessage(text) {
+    if (!text.trim()) return;
+
+    addMessage('user', text);
+    textInput.value = '';
+
+    const typing = addTypingIndicator();
+    setStatus('Yanıt bekleniyor...', 'processing');
+    setAvatarStatus('thinking');
+    btnSend.disabled = true;
+
+    try {
+        const res = await fetch(LOCAL_API_URL, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ text, conversation_id: conversationId })
+        });
+
+        const data = await res.json();
+        if (data.conversation_id) conversationId = data.conversation_id;
+
+        removeTypingIndicator();
+
+        let reply = data.response || 
+                    (data.choices && data.choices[0]?.message?.content) || 
+                    'Bir hata oluştu.';
+
+        addMessage('bot', reply);
+        setStatus('Yanıtlıyor...', 'idle');
+        setAvatarStatus('talking');
+
+        speakText(reply, () => {
+            setAvatarStatus('');
+            setStatus('Hazır');
+        });
+
+    } catch (err) {
+        removeTypingIndicator();
+        setStatus('Bağlantı hatası', 'error');
+        setAvatarStatus('');
+        addMessage('bot', 'Sunucuya bağlanılamadı. server.py çalışıyor mu?');
+    } finally {
+        btnSend.disabled = false;
+    }
+}
+
+// ============================================================
+//  TTS
+// ============================================================
+let currentAudio = null;
+let speechQueue = [];
+let speakingCallback = null;
+
+function speakText(text, onDone) {
+    stopSpeech();
+    isBotSpeaking = true;
+    btnMic.classList.add('speaking');
+    micIcon.className = 'fas fa-hand';
+    speakingCallback = onDone;
+
+    const chunks = splitText(text, 140);
+    speechQueue = [...chunks];
+    playNextChunk();
+}
+
+function splitText(text, maxLen) {
+    const sentences = text.match(/[^.!?؟]+[.!?؟]*\s*/g) || [text];
+    const chunks = [];
+    let current = '';
+    for (const s of sentences) {
+        if ((current + s).length <= maxLen) {
+            current += s;
+        } else {
+            if (current) chunks.push(current.trim());
+            current = s;
+        }
+    }
+    if (current) chunks.push(current.trim());
+    return chunks.filter(Boolean);
+}
+
+function playNextChunk() {
+    if (speechQueue.length === 0) {
+        isBotSpeaking = false;
+        btnMic.classList.remove('speaking');
+        micIcon.className = 'fas fa-microphone';
+        if (speakingCallback) speakingCallback();
+        return;
+    }
+    const chunk = speechQueue.shift();
+    const url = `https://translate.google.com/translate_tts?ie=UTF-8&tl=tr&client=tw-ob&q=${encodeURIComponent(chunk)}`;
+    const audio = new Audio(url);
+    audio.playbackRate = speechRate;
+    currentAudio = audio;
+
+    audio.onended = playNextChunk;
+    audio.onerror = () => {
+        // Fallback to Web Speech API
+        fallbackTTS(chunk, playNextChunk);
+    };
+    audio.play().catch(() => fallbackTTS(chunk, playNextChunk));
+}
+
+function fallbackTTS(text, onDone) {
+    if (!window.speechSynthesis) { onDone(); return; }
+    const utter = new SpeechSynthesisUtterance(text);
+    utter.lang = 'tr-TR';
+    utter.rate = speechRate;
+    utter.onend = onDone;
+    window.speechSynthesis.speak(utter);
+}
+
+function stopSpeech() {
+    speechQueue = [];
+    isBotSpeaking = false;
+    btnMic.classList.remove('speaking');
+    micIcon.className = 'fas fa-microphone';
+    if (currentAudio) {
+        currentAudio.pause();
+        currentAudio = null;
+    }
+    if (window.speechSynthesis) window.speechSynthesis.cancel();
+    if (speakingCallback) { speakingCallback = null; }
+}
+
+// ============================================================
+//  RESET
+// ============================================================
+function resetConversation() {
+    stopSpeech();
+    stopRecording(false);
+    conversationId = null;
+    // Clear chat and restore welcome
+    chatArea.innerHTML = `
+        <div class="welcome" id="welcomeScreen">
+            <div class="welcome-icon"><img src="./img/d1.svg" alt="Dildaş" style="width:42px;height:42px;object-fit:contain;"></div>
+            <h2>Merhaba! Ben Dildaş.</h2>
+            <p>Türkçe konuşma pratiği yapmana yardımcı olmak için buradayım. Seninle sohbet etmeye hazırım.</p>
+            <div class="welcome-hint">
+                <i class="fas fa-microphone" style="color:var(--accent)"></i>
+                Mikrofon butonuna bas ve konuşmaya başla — susman yeterli!
+            </div>
+        </div>`;
+    setStatus('Yeni konuşma başlatıldı');
+    setAvatarStatus('');
+    showToast('Konuşma sıfırlandı');
+
+    // Reset server-side conversation
+    if (conversationId) {
+        fetch('http://127.0.0.1:5000/api/reset_conversation', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ conversation_id: conversationId })
+        }).catch(() => {});
+    }
+}
+
+// ============================================================
+//  EVENT LISTENERS
+// ============================================================
+btnMic.addEventListener('click', toggleMic);
+btnStop.addEventListener('click', stopSpeech);
+btnReset.addEventListener('click', resetConversation);
+
+btnSend.addEventListener('click', () => {
+    const text = textInput.value.trim();
+    if (text) sendMessage(text);
+});
+
+textInput.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter' && !e.shiftKey) {
+        e.preventDefault();
+        const text = textInput.value.trim();
+        if (text) sendMessage(text);
+    }
+});
+
+textInput.addEventListener('input', () => {
+    textInput.style.height = 'auto';
+    textInput.style.height = Math.min(textInput.scrollHeight, 100) + 'px';
+});
+
+speechRateSlider.addEventListener('input', function() {
+    speechRate = parseFloat(this.value);
+    rateValueDisplay.textContent = speechRate.toFixed(1) + 'x';
+    if (currentAudio) currentAudio.playbackRate = speechRate;
+});
+
+// ============================================================
+//  INIT
+// ============================================================
+window.addEventListener('load', () => {
+    if (!('webkitSpeechRecognition' in window) && !('SpeechRecognition' in window)) {
+        setStatus('Mikrofon bu tarayıcıda desteklenmiyor', 'error');
+        btnMic.disabled = true;
+    }
+    speechSynthesis.onvoiceschanged = () => speechSynthesis.getVoices();
+    speechSynthesis.getVoices();
+});
+</script>
+</body>
+</html>
